@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         version="5.0">
+
+<!--    <servlet>-->
+<!--        <servlet-name>RegistrationServlet</servlet-name>-->
+<!--        <jsp-file>/WEB-INF/jsp/auth/registration.jsp</jsp-file>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>RegistrationServlet</servlet-name>-->
+<!--        <path-pattern>/registration</path-pattern>-->
+<!--    </servlet-mapping>-->
+
+<!--    <servlet>-->
+<!--        <servlet-name>LoginServlet</servlet-name>-->
+<!--        <jsp-file>/WEB-INF/jsp/auth/login.jsp</jsp-file>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>LoginServlet</servlet-name>-->
+<!--        <path-pattern>/login</path-pattern>-->
+<!--    </servlet-mapping>-->
+
+<!--    <servlet>-->
+<!--        <servlet-name>HomeServlet</servlet-name>-->
+<!--        <jsp-file>/WEB-INF/jsp/app/home.jsp</jsp-file>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>HomeServlet</servlet-name>-->
+<!--        <path-pattern>/app/home</path-pattern>-->
+<!--    </servlet-mapping>-->
+
+<!--    <servlet>-->
+<!--        <servlet-name>AllQuizzesServlet</servlet-name>-->
+<!--        <jsp-file>/WEB-INF/jsp/app/all-quizzes.jsp</jsp-file>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>AllQuizzesServlet</servlet-name>-->
+<!--        <path-pattern>/app/all-quizzes</path-pattern>-->
+<!--    </servlet-mapping>-->
+
+<!--    <servlet>-->
+<!--        <servlet-name>UserQuizzesServlet</servlet-name>-->
+<!--        <jsp-file>/WEB-INF/jsp/app/user-quizzes.jsp</jsp-file>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>UserQuizzesServlet</servlet-name>-->
+<!--        <path-pattern>/app/my-quizzes</path-pattern>-->
+<!--    </servlet-mapping>-->
+
+<!--    <servlet>-->
+<!--        <servlet-name>AdminServlet</servlet-name>-->
+<!--        <jsp-file>/WEB-INF/jsp/admin/admin.jsp</jsp-file>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>AdminServlet</servlet-name>-->
+<!--        <path-pattern>/admin</path-pattern>-->
+<!--    </servlet-mapping>-->
+
+<!--    <servlet>-->
+<!--        <servlet-name>EditUserServlet</servlet-name>-->
+<!--        <jsp-file>/WEB-INF/jsp/admin/edit-user.jsp</jsp-file>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>EditUserServlet</servlet-name>-->
+<!--        <path-pattern>/admin/edit-user</path-pattern>-->
+<!--    </servlet-mapping>-->
+
+<!--    <servlet>-->
+<!--        <servlet-name>AdminQuizzesServlet</servlet-name>-->
+<!--        <jsp-file>/WEB-INF/jsp/admin/quizzes.jsp</jsp-file>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>AdminQuizzesServlet</servlet-name>-->
+<!--        <path-pattern>/admin/quizzes</path-pattern>-->
+<!--    </servlet-mapping>-->
+
+<!--    <servlet>-->
+<!--        <servlet-name>AdminUsersServlet</servlet-name>-->
+<!--        <jsp-file>/WEB-INF/jsp/admin/users.jsp</jsp-file>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>AdminUsersServlet</servlet-name>-->
+<!--        <path-pattern>/admin/users</path-pattern>-->
+<!--    </servlet-mapping>-->
+
+<!--    <servlet>-->
+<!--        <servlet-name>AdminQuestionsServlet</servlet-name>-->
+<!--        <jsp-file>/WEB-INF/jsp/admin/questions.jsp</jsp-file>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>AdminQuestionsServlet</servlet-name>-->
+<!--        <path-pattern>/admin/quiz/questions</path-pattern>-->
+<!--    </servlet-mapping>-->
+
+<!--    <servlet>-->
+<!--        <servlet-name>AdminEditQuizServlet</servlet-name>-->
+<!--        <jsp-file>/WEB-INF/jsp/admin/edit-quiz.jsp</jsp-file>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>AdminEditQuizServlet</servlet-name>-->
+<!--        <path-pattern>/admin/quiz/edit</path-pattern>-->
+<!--    </servlet-mapping>-->
+<!--    -->
+<!--    <servlet>-->
+<!--        <servlet-name>ProfileServlet</servlet-name>-->
+<!--        <jsp-file>/WEB-INF/jsp/app/profile.jsp</jsp-file>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>ProfileServlet</servlet-name>-->
+<!--        <path-pattern>/app/profile</path-pattern>-->
+<!--    </servlet-mapping>-->
+
+</web-app>
