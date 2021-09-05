@@ -16,7 +16,7 @@ public class AddQuizCommand implements Command {
 
     @Override
     public Page execute(HttpServletRequest request, HttpServletResponse response) {
-        if (request.getMethod().equalsIgnoreCase("getByLoginAndPassword")) {
+        if (request.getMethod().equalsIgnoreCase("get")) {
             return new Page("/WEB-INF/jsp/admin/add-quiz.jsp", false);
         }
         DbManager dbManager = DbManager.getInstance();
@@ -36,19 +36,24 @@ public class AddQuizCommand implements Command {
 
     private Quiz createQuiz(HttpServletRequest request, QuizDAO quizDAO) throws DbException {
         String name = request.getParameter("name");
+        String subject = request.getParameter("subject");
         int time = 0;
         if (!request.getParameter("time").isEmpty()) {
             time = Integer.parseInt(request.getParameter("time"));
         }
         String difficulty = request.getParameter("difficulty");
-        if (!validateValues(quizDAO, name, time, difficulty)) {
+        if (!validateValues(quizDAO, name, time, difficulty, subject)) {
             return null;
         }
-        return Quiz.createQuiz(name, time, difficulty);
+        return Quiz.createQuiz(name, time, difficulty, subject);
     }
 
-    private boolean validateValues(QuizDAO quizDAO, String name, int time, String difficulty) throws DbException {
+    private boolean validateValues(QuizDAO quizDAO, String name, int time, String difficulty, String subject) throws DbException {
         if (name.isEmpty() && quizDAO.get(name) != null) {
+            return false;
+        }
+
+        if (subject.isEmpty()) {
             return false;
         }
 

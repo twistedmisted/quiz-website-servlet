@@ -68,17 +68,22 @@
                 <label for="name"><fmt:message key="name"/></label>
                 <input type="text" name="name" id="name">
             </div>
-
             <div class="element">
                 <label for="time"><fmt:message key="time"/> (<fmt:message key="time-measure"/>)</label>
                 <input type="text" name="time" id="time">
             </div>
-
             <div class="element">
                 <label for="difficulty"><fmt:message key="difficulty"/></label>
-                <input type="text" name="difficulty" id="difficulty">
+                <select name="difficulty" id="difficulty">
+                    <option value="easy"><fmt:message key="easy"/></option>
+                    <option value="medium"><fmt:message key="normal"/></option>
+                    <option value="hard"><fmt:message key="hard"/></option>
+                </select>
             </div>
-
+            <div class="element">
+                <label for="subject"><fmt:message key="subject"/></label>
+                <input type="text" name="subject" id="subject" value="${quiz.subject}">
+            </div>
             <div class="btns">
                 <button class="btn" type="submit"><fmt:message key="confirm"/></button>
             </div>

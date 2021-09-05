@@ -12,13 +12,12 @@ public class Quiz {
 
     private String subject;
 
-    // QUESTIONS
-
-    public static Quiz createQuiz(String name, int time, String difficulty) {
+    public static Quiz createQuiz(String name, int time, String difficulty, String subject) {
         Quiz quiz = new Quiz();
         quiz.setName(name);
         quiz.setTime(time);
         quiz.setDifficulty(difficulty);
+        quiz.setSubject(subject);
         return quiz;
     }
 

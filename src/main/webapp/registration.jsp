@@ -13,6 +13,7 @@
 
         <script>
             function validPass() {
+                if (document.getElementById("p1").value.length != 0 &&)
                 if (document.getElementById("p1").value.length != 0 && document.getElementById("p2").value.length != 0
                     && document.getElementById("p1").value != document.getElementById("p2").value) {
                     document.getElementById("passHint1").innerHTML = "Passwords do not match";

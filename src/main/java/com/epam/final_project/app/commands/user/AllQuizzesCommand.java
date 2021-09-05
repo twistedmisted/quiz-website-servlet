@@ -31,7 +31,7 @@ public class AllQuizzesCommand implements Command {
             sortBy = "name";
         }
         try {
-            List<String> subjects = dbManager.getSubjectDAO().getAll();
+            List<String> subjects = quizDAO.getSubjects();
             if (showSubject != null) {
                 quizzes = quizDAO.getAllBySubject(showSubject);
             } else if (sortBy.equalsIgnoreCase("name")) {

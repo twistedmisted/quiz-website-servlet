@@ -9,7 +9,7 @@
     </appender>
 
     <appender name="fileAppender" class="org.apache.log4j.RollingFileAppender">
-        <param name="File" value="C:/Users/maloi/IdeaProjects/main_project/src/logs/logfile.log"/>
+        <param name="File" value="C:/Users/maloi/IdeaProjects/epamServletProject/src/logs/logfile.log"/>
         <param name="append" value="true"/>
         <param name="maxFileSize" value="1024KB"/>
         <param name="maxBackupIndex" value="2"/>

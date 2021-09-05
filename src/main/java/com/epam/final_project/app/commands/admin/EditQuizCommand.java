@@ -5,6 +5,7 @@ import com.epam.final_project.app.commands.Command;
 import com.epam.final_project.dao.DbManager;
 import com.epam.final_project.dao.entity.QuizDAO;
 import com.epam.final_project.dao.model.Quiz;
+import com.epam.final_project.exception.DbException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
@@ -25,7 +26,7 @@ public class EditQuizCommand implements Command {
             if (quiz == null) {
                 return new Page("/admin/quizzes?page=" + request.getParameter("page"), true);
             }
-            if (request.getMethod().equalsIgnoreCase("getByLoginAndPassword")) {
+            if (request.getMethod().equalsIgnoreCase("get")) {
                 request.setAttribute("quiz", quiz);
                 request.setAttribute("id", id);
                 request.setAttribute("page", request.getParameter("page"));
@@ -39,13 +40,18 @@ public class EditQuizCommand implements Command {
         }
     }
 
-    private Quiz createNewQuiz(HttpServletRequest request, QuizDAO quizDAO, Quiz quiz) throws SQLException {
+    private Quiz createNewQuiz(HttpServletRequest request, QuizDAO quizDAO, Quiz quiz) throws DbException {
         String name = request.getParameter("name");
         int time = Integer.parseInt(request.getParameter("time"));
         String difficulty = request.getParameter("difficulty");
+        String subject = request.getParameter("subject");
 
         if (!name.isEmpty() && quizDAO.get(name) == null) {
             quiz.setName(name);
+        }
+
+        if (!subject.isEmpty()) {
+            quiz.setSubject(subject);
         }
 
         if (!difficulty.isEmpty()) {

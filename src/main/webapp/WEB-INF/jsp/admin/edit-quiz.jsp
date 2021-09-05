@@ -1,4 +1,5 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:bundle basename="application_lang">
@@ -77,7 +78,29 @@
 
             <div class="element">
                 <label for="difficulty"><fmt:message key="difficulty"/></label>
-                <input type="text" name="difficulty" id="difficulty" value="${quiz.difficulty}">
+                <select name="difficulty" id="difficulty">
+                    <c:choose>
+                        <c:when test="${quiz.difficulty == 'easy'}">
+                            <option value="easy" selected><fmt:message key="easy"/></option>
+                            <option value="normal"><fmt:message key="normal"/></option>
+                            <option value="hard"><fmt:message key="hard"/></option>
+                        </c:when>
+                        <c:when test="${quiz.difficulty == 'normal'}">
+                            <option value="easy"><fmt:message key="easy"/></option>
+                            <option value="normal" selected><fmt:message key="normal"/></option>
+                            <option value="hard"><fmt:message key="hard"/></option>
+                        </c:when>
+                        <c:otherwise>
+                            <option value="easy"><fmt:message key="easy"/></option>
+                            <option value="normal"><fmt:message key="normal"/></option>
+                            <option value="hard" selected><fmt:message key="hard"/></option>
+                        </c:otherwise>
+                    </c:choose>
+                </select>
+            </div>
+            <div class="element">
+                <label for="subject"><fmt:message key="subject"/></label>
+                <input type="text" name="subject" id="subject" value="${quiz.subject}">
             </div>
             <div class="btns">
                 <button class="btn" type="submit"><fmt:message key="confirm"/></button>

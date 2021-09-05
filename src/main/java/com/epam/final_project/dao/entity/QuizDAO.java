@@ -22,13 +22,13 @@ public class QuizDAO implements DAO<Quiz> {
 
     private static final String GET_QUIZ_BY_NAME = "SELECT * FROM quiz WHERE name=(?);";
 
-    private static final String GET_QUIZ_BY_SUBJECT = "SELECT * FROM quiz WHERE quiz.subject_id=(SELECT id FROM subject WHERE name=(?));";
+    private static final String GET_QUIZ_BY_SUBJECT = "SELECT * FROM quiz WHERE subject=(?);";
 
     private static final String DELETE_QUIZ = "DELETE FROM quiz WHERE id=(?);";
 
-    private static final String UPDATE_QUIZ = "UPDATE quiz SET name=(?), time=(?), difficulty=(?) WHERE id=(?);";
+    private static final String UPDATE_QUIZ = "UPDATE quiz SET name=(?), time=(?), difficulty=(?), subject=(?) WHERE id=(?);";
 
-    private static final String INSERT_QUIZ = "INSERT INTO quiz (name, time, difficulty) VALUES (?, ?, ?);";
+    private static final String INSERT_QUIZ = "INSERT INTO quiz (name, time, difficulty, subject) VALUES (?, ?, ?, ?);";
 
     private static final String SET_QUESTION_FOR_QUIZ = "INSERT INTO questions_quiz (quiz_id, question_id) VALUES (?, ?);";
 
@@ -59,17 +59,15 @@ public class QuizDAO implements DAO<Quiz> {
 
     private static final String GET_NUMBER_OF_QUIZZES = "SELECT COUNT(*) FROM quiz;";
 
+    private static final String GET_SUBJECTS = "SELECT DISTINCT subject FROM quiz;";
+
     private final DbManager dbManager;
 
     private final QuestionDAO questionDAO;
 
-    private final SubjectDAO subjectDAO;
-
     public QuizDAO() {
         dbManager = DbManager.getInstance();
         questionDAO = dbManager.getQuestionDAO();
-        // TODO: CHANGE
-        subjectDAO = new SubjectDAO();
     }
 
     @Override
@@ -121,6 +119,7 @@ public class QuizDAO implements DAO<Quiz> {
             statement.setString(++k, quiz.getName());
             statement.setInt(++k, quiz.getTime());
             statement.setString(++k, quiz.getDifficulty());
+            statement.setString(++k, quiz.getSubject());
             statement.setLong(++k, quiz.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -248,6 +247,21 @@ public class QuizDAO implements DAO<Quiz> {
         }
     }
 
+    public List<String> getSubjects() throws DbException {
+        List<String> subjects = new ArrayList<>();
+        try (Connection connection = dbManager.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(GET_SUBJECTS)) {
+            while (resultSet.next()) {
+                subjects.add(resultSet.getString(1));
+            }
+            return subjects;
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            throw new DbException("Can not to get subjects", e);
+        }
+    }
+
     private List<Quiz> getQuizzes(String query) throws DbException {
         List<Quiz> quizzes = new ArrayList<>();
         try (Connection connection = dbManager.getConnection();
@@ -269,12 +283,7 @@ public class QuizDAO implements DAO<Quiz> {
         quiz.setName(resultSet.getString("name"));
         quiz.setTime(resultSet.getInt("time"));
         quiz.setDifficulty(resultSet.getString("difficulty"));
-        try {
-            quiz.setSubject(subjectDAO.setSubjectForQuiz(quiz.getId()));
-        } catch (DbException e) {
-            LOGGER.error(e);
-            throw new SQLException("Can not to set subject for quiz", e);
-        }
+        quiz.setSubject(resultSet.getString("subject"));
         return quiz;
     }
 
@@ -284,6 +293,7 @@ public class QuizDAO implements DAO<Quiz> {
             statement.setString(++k, quiz.getName());
             statement.setInt(++k, quiz.getTime());
             statement.setString(++k, quiz.getDifficulty());
+            statement.setString(++k, quiz.getSubject());
             statement.executeUpdate();
         }
     }

@@ -1,1 +1,4 @@
-2021-09-03 19:32:45 ERROR Test:19 - NoSuchArgumentException
+2021-09-05 17:00:16 ERROR QuizDAO:178 - Parameter index out of range (1 > number of parameters, which is 0).
+2021-09-05 17:00:16 ERROR AllQuizzesCommand:54 - com.epam.final_project.exception.DbException: Can not to get all quizzes by subject
+2021-09-05 17:00:16 ERROR QuizDAO:178 - Parameter index out of range (1 > number of parameters, which is 0).
+2021-09-05 17:00:16 ERROR AllQuizzesCommand:54 - com.epam.final_project.exception.DbException: Can not to get all quizzes by subject

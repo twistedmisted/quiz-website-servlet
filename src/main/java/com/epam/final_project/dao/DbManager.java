@@ -1,7 +1,6 @@
 package com.epam.final_project.dao;
 
 import com.epam.final_project.dao.entity.*;
-import com.example.main_project.dao.entity.*;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -14,19 +13,7 @@ public class DbManager {
 
     private static DbManager instance;
 
-    private UserDAO userDAO;
-
-    private QuestionDAO questionDAO;
-
-    private QuizDAO quizDAO;
-
-    private VariantsDAO variantsDAO;
-
-    private AnswersDAO answersDAO;
-
-    private SubjectDAO subjectDAO;
-
-    public final DataSource dataSource;
+    private final DataSource dataSource;
 
     private DbManager() {
         try {
@@ -50,44 +37,23 @@ public class DbManager {
     }
 
     public VariantsDAO getVariantsDAO() {
-        if (variantsDAO == null) {
-            variantsDAO = new VariantsDAO();
-        }
-        return variantsDAO;
+        return new VariantsDAO();
     }
 
     public UserDAO getUserDAO() {
-        if (userDAO == null) {
-            userDAO = new UserDAO();
-        }
-        return userDAO;
+        return new UserDAO();
     }
 
     public QuestionDAO getQuestionDAO() {
-        if (questionDAO == null) {
-            questionDAO = new QuestionDAO();
-        }
-        return questionDAO;
+        return new QuestionDAO();
     }
 
     public QuizDAO getQuizDAO() {
-        if (quizDAO == null) {
-            quizDAO = new QuizDAO();
-        }
-        return quizDAO;
+        return new QuizDAO();
     }
 
     public AnswersDAO getAnswerDAO() {
-        if (answersDAO == null) {
-            answersDAO = new AnswersDAO();
-        }
-        return answersDAO;
+        return new AnswersDAO();
     }
 
-    public SubjectDAO getSubjectDAO() {
-        if (subjectDAO == null) {
-            subjectDAO = new SubjectDAO();
-        }
-        return subjectDAO;
-    }
 }

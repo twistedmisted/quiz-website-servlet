@@ -17,6 +17,7 @@
                 <th id="name"><fmt:message key="name"/></th>
                 <th id="time"><fmt:message key="time"/></th>
                 <th id="difficulty"><fmt:message key="difficulty"/></th>
+                <th id="subject"><fmt:message key="subject"/></th>
                 <th id="questions"><fmt:message key="questions"/></th>
                 <th id="actions" colspan="2"><fmt:message key="actions"/></th>
             </tr>
@@ -25,6 +26,7 @@
                     <td><c:out value="${quiz.name}"/></td>
                     <td><c:out value="${quiz.time}"/></td>
                     <td><c:out value="${quiz.difficulty}"/></td>
+                    <td><c:out value="${quiz.subject}"/></td>
                     <td>
                         <a href="${pageContext.request.contextPath}/admin/quizzes/questions?id=${quiz.id}&page=${currentPage}"><fmt:message key="list-questions"/></a>
                     </td>
@@ -37,7 +39,7 @@
                 </tr>
             </c:forEach>
             <tr>
-                <td colspan="6" style="text-align: center">
+                <td colspan="7" style="text-align: center">
                     <a href="${pageContext.request.contextPath}/admin/add-quiz"><fmt:message key="add-quiz"/></a>
                 </td>
             </tr>

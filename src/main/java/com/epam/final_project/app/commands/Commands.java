@@ -2,8 +2,6 @@ package com.epam.final_project.app.commands;
 
 import com.epam.final_project.app.commands.admin.*;
 import com.epam.final_project.app.commands.user.*;
-import com.example.main_project.app.commands.admin.*;
-import com.example.main_project.app.commands.user.*;
 
 public enum Commands {
 

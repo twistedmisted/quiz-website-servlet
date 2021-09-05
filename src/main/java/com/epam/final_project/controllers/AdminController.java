@@ -2,7 +2,6 @@ package com.epam.final_project.controllers;
 
 import com.epam.final_project.dao.DbManager;
 import com.epam.final_project.dao.entity.*;
-import com.example.main_project.dao.entity.*;
 import org.apache.log4j.Logger;
 
 public class AdminController {
