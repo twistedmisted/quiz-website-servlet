@@ -4,7 +4,8 @@ import com.epam.final_project.dao.DbManager;
 import com.epam.final_project.dao.model.Question;
 import com.epam.final_project.dao.model.Quiz;
 import com.epam.final_project.exception.DbException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,9 +15,7 @@ import java.util.List;
 
 public class QuizDAO implements DAO<Quiz> {
 
-    // TODO: ADD SUBJECT FOR ALL QUERY
-
-    private static final Logger LOGGER = Logger.getLogger(QuizDAO.class);
+    private static final Logger LOGGER = LogManager.getLogger(QuizDAO.class);
 
     private static final String GET_QUIZ_BY_ID = "SELECT * FROM quiz WHERE id=(?);";
 

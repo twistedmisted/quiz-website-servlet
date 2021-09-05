@@ -1,10 +1,11 @@
 package com.epam.final_project.dao.entity;
 
 import com.epam.final_project.dao.DbManager;
+import com.epam.final_project.dao.model.Question;
 import com.epam.final_project.exception.DbException;
 import com.epam.final_project.exception.NotSupportedActionException;
-import com.epam.final_project.dao.model.Question;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class QuestionDAO implements DAO<Question> {
 
-    private static final Logger LOGGER = Logger.getLogger(QuestionDAO.class);
+    private static final Logger LOGGER = LogManager.getLogger(QuestionDAO.class);
 
     private static final String GET_QUESTION_BY_ID = "SELECT * FROM question WHERE id=(?);";
 

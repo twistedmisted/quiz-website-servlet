@@ -9,11 +9,12 @@ import com.epam.final_project.exception.DbException;
 import com.epam.final_project.utils.PasswordEncryption;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class RegistrationCommand implements Command {
 
-    private static final Logger LOGGER = Logger.getLogger(RegistrationCommand.class);
+    private static final Logger LOGGER = LogManager.getLogger(RegistrationCommand.class);
 
     private final DbManager dbManager = DbManager.getInstance();
 

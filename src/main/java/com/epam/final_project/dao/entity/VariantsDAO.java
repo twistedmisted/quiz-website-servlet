@@ -1,10 +1,11 @@
 package com.epam.final_project.dao.entity;
 
 import com.epam.final_project.dao.DbManager;
+import com.epam.final_project.dao.model.Question;
 import com.epam.final_project.exception.DbException;
 import com.epam.final_project.exception.NotSupportedActionException;
-import com.epam.final_project.dao.model.Question;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,11 +13,11 @@ import java.util.List;
 
 public class VariantsDAO implements DAO<String> {
 
+    private static final Logger LOGGER = LogManager.getLogger(VariantsDAO.class);
+
     private static final String GET_VARIANTS = "SELECT variant FROM variants WHERE question_id=(?);";
 
     private static final String INSERT_VARIANTS = "INSERT INTO variants (variant, question_id) VALUES (?, ?);";
-
-    private static final Logger LOGGER = Logger.getLogger(VariantsDAO.class);
 
     private static final String NOT_SUPPORTED_ACTION_EXCEPTION = "This is not supported action";
 

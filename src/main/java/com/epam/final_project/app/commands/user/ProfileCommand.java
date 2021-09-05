@@ -10,7 +10,8 @@ import com.epam.final_project.dao.model.User;
 import com.epam.final_project.exception.DbException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.Map;
 
 public class ProfileCommand implements Command {
 
-    private static final Logger LOGGER = Logger.getLogger(ProfileCommand.class);
+    private static final Logger LOGGER = LogManager.getLogger(ProfileCommand.class);
 
     @Override
     public Page execute(HttpServletRequest request, HttpServletResponse response) {

@@ -1,4 +1,8 @@
-2021-09-05 17:00:16 ERROR QuizDAO:178 - Parameter index out of range (1 > number of parameters, which is 0).
-2021-09-05 17:00:16 ERROR AllQuizzesCommand:54 - com.epam.final_project.exception.DbException: Can not to get all quizzes by subject
-2021-09-05 17:00:16 ERROR QuizDAO:178 - Parameter index out of range (1 > number of parameters, which is 0).
-2021-09-05 17:00:16 ERROR AllQuizzesCommand:54 - com.epam.final_project.exception.DbException: Can not to get all quizzes by subject
+[ERROR] 2021-09-05 18:41:39.051 [http-nio-8080-exec-6] QuizDAO - Parameter index out of range (1 > number of parameters, which is 0).
+[ERROR] 2021-09-05 18:41:39.066 [http-nio-8080-exec-6] AllQuizzesCommand - com.epam.final_project.exception.DbException: Can not to get all quizzes by subject
+[ERROR] 2021-09-05 18:41:39.113 [http-nio-8080-exec-8] QuizDAO - Parameter index out of range (1 > number of parameters, which is 0).
+[ERROR] 2021-09-05 18:41:39.113 [http-nio-8080-exec-8] AllQuizzesCommand - com.epam.final_project.exception.DbException: Can not to get all quizzes by subject
+[ERROR] 2021-09-05 18:43:16.383 [http-nio-8080-exec-1] QuizDAO - Parameter index out of range (1 > number of parameters, which is 0).
+[ERROR] 2021-09-05 18:43:16.389 [http-nio-8080-exec-1] AllQuizzesCommand - com.epam.final_project.exception.DbException: Can not to get all quizzes by subject
+[ERROR] 2021-09-05 18:43:18.705 [http-nio-8080-exec-3] QuizDAO - Parameter index out of range (1 > number of parameters, which is 0).
+[ERROR] 2021-09-05 18:43:18.705 [http-nio-8080-exec-3] AllQuizzesCommand - com.epam.final_project.exception.DbException: Can not to get all quizzes by subject

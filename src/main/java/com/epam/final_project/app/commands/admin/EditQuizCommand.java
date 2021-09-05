@@ -8,13 +8,12 @@ import com.epam.final_project.dao.model.Quiz;
 import com.epam.final_project.exception.DbException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
-
-import java.sql.SQLException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class EditQuizCommand implements Command {
 
-    private static final Logger LOGGER = Logger.getLogger(EditQuizCommand.class);
+    private static final Logger LOGGER = LogManager.getLogger(EditQuizCommand.class);
 
     @Override
     public Page execute(HttpServletRequest request, HttpServletResponse response) {

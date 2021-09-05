@@ -1,9 +1,10 @@
 package com.epam.final_project.dao.entity;
 
 import com.epam.final_project.dao.DbManager;
-import com.epam.final_project.exception.DbException;
 import com.epam.final_project.dao.model.User;
-import org.apache.log4j.Logger;
+import com.epam.final_project.exception.DbException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class UserDAO implements DAO<User> {
 
-    private static final Logger LOGGER = Logger.getLogger(UserDAO.class);
+    private static final Logger LOGGER = LogManager.getLogger(UserDAO.class);
 
     private static final String INSERT_USER = "INSERT INTO user (email, login, password, access_level) VALUES (?, ?, ?, ?);";
 

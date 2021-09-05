@@ -2,11 +2,12 @@ package com.epam.final_project.controllers;
 
 import com.epam.final_project.dao.DbManager;
 import com.epam.final_project.dao.entity.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class AdminController {
 
-    private static final Logger logger = Logger.getLogger(AdminController.class);
+    private static final Logger logger = LogManager.getLogger(AdminController.class);
 
     private static AdminController instance;
 

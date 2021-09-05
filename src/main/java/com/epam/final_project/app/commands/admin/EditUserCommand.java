@@ -8,11 +8,12 @@ import com.epam.final_project.exception.DbException;
 import com.epam.final_project.dao.model.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class EditUserCommand implements Command {
 
-    private static final Logger LOGGER = Logger.getLogger(EditUserCommand.class);
+    private static final Logger LOGGER = LogManager.getLogger(EditUserCommand.class);
 
     @Override
     public Page execute(HttpServletRequest request, HttpServletResponse response) {

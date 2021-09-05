@@ -1,9 +1,10 @@
 package com.epam.final_project.dao.entity;
 
 import com.epam.final_project.dao.DbManager;
-import com.epam.final_project.exception.DbException;
 import com.epam.final_project.dao.model.Question;
-import org.apache.log4j.Logger;
+import com.epam.final_project.exception.DbException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class AnswersDAO {
 
-    private static final Logger LOGGER = Logger.getLogger(AnswersDAO.class);
+    private static final Logger LOGGER = LogManager.getLogger(AnswersDAO.class);
 
     private static final String GET_ANSWERS = "SELECT answer FROM answers WHERE question_id=(?);";
 

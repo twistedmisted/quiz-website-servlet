@@ -6,15 +6,16 @@ import com.epam.final_project.dao.DbManager;
 import com.epam.final_project.dao.entity.QuizDAO;
 import com.epam.final_project.dao.entity.UserDAO;
 import com.epam.final_project.dao.model.Quiz;
-import com.epam.final_project.exception.DbException;
 import com.epam.final_project.dao.model.User;
+import com.epam.final_project.exception.DbException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class QuizCommand implements Command {
 
-    private static final Logger LOGGER = Logger.getLogger(QuizCommand.class);
+    private static final Logger LOGGER = LogManager.getLogger(QuizCommand.class);
 
     @Override
     public Page execute(HttpServletRequest request, HttpServletResponse response) {
