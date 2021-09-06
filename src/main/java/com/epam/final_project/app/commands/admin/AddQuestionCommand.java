@@ -24,7 +24,7 @@ public class AddQuestionCommand implements Command {
 
     @Override
     public Page execute(HttpServletRequest request, HttpServletResponse response) {
-        if (request.getMethod().equalsIgnoreCase("getByLoginAndPassword")) {
+        if (request.getMethod().equalsIgnoreCase("get")) {
             return new Page("/WEB-INF/jsp/admin/add-question.jsp", false);
         }
         DbManager dbManager = DbManager.getInstance();

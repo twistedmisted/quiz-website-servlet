@@ -86,12 +86,12 @@
             <c:when test="${not empty score}">
                 <p class="result"><fmt:message key="your-score"/> <c:out value="${score}"/>%</p>
                 <div class="btns">
-                    <a class="btn" href="<%=request.getHeader("referer")%>">Back</a>
+                    <a class="btn" href="${pageContext.request.contextPath}/app/home">Back</a>
                 </div>
             </c:when>
             <c:otherwise>
                 <div class="btns">
-                    <a class="btn" href="<%=request.getHeader("referer")%>"><fmt:message key="back"/></a>
+                    <a class="btn" href="${pageContext.request.contextPath}/app/home"><fmt:message key="back"/></a>
                     <a class="btn" href="${pageContext.request.contextPath}/app/start?quiz_id=${quiz.id}&question=1"><fmt:message key="start"/></a>
                 </div>
             </c:otherwise>

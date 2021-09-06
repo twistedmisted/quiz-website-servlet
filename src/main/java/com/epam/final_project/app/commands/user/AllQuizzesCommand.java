@@ -37,13 +37,10 @@ public class AllQuizzesCommand implements Command {
                 quizzes = quizDAO.getAllBySubject(showSubject);
             } else if (sortBy.equalsIgnoreCase("name")) {
                 quizzes = quizDAO.getAllSortedByName();
-                sortOptions[0] = "<option value=\"name\" selected>Name</option>";
             } else if (sortBy.equalsIgnoreCase("difficulty")) {
                 quizzes = quizDAO.getAllSortedByDifficulty();
-                sortOptions[1] = "<option value=\"difficulty\" selected>Difficulty</option>";
             } else if (sortBy.equalsIgnoreCase("questions")) {
                 quizzes = quizDAO.getAllSortedByNumberOfQuestions();
-                sortOptions[2] = "<option value=\"questions\" selected>Number of questions</option>";
             }
             request.setAttribute("quizzes", quizzes);
             request.setAttribute("subjects", subjects);

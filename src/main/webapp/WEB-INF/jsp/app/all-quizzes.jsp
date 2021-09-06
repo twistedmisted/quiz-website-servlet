@@ -75,11 +75,12 @@
                 <div class="header">
                     <p class="container-title"><fmt:message key="all-quizzes"/></p></div>
                 <div class="subject">
-                    <label class="label-select" for="subject-select">Subject:</label>
+                    <label class="label-select" for="subject-select"><fmt:message key="subject"/>:</label>
                     <select class="select" name="sortVal" id="subject-select">
                         <c:if test="${showSubject == null}">
                             <option value="null" selected>...</option>
                         </c:if>
+
                         <c:forEach var="subject" items="${subjects}">
                             <c:choose>
                                 <c:when test="${subject == showSubject}">
@@ -93,21 +94,38 @@
                     </select>
                 </div>
                 <div class="sort">
-                    <label class="label-select" for="sort-select">Sort by:</label>
+                    <label class="label-select" for="sort-select"><fmt:message key="sort-by"/>:</label>
                     <select class="select" name="sortVal" id="sort-select">
                         <c:if test="${showSubject != null}">
                             <option value="null" selected>...</option>
                         </c:if>
-<%--                        TODO: edit --%>
-                        <c:forEach var="option" items="${sortOptions}">
-                            ${option}
-                        </c:forEach>
+                        <c:choose>
+                            <c:when test="${sortBy == 'name'}">
+                                <option value="name" selected><fmt:message key="name"/></option>
+                                <option value="difficulty"><fmt:message key="difficulty"/></option>
+                                <option value="questions"><fmt:message key="questions"/></option>
+                            </c:when>
+                            <c:when test="${sortBy == 'difficulty'}">
+                                <option value="name"><fmt:message key="name"/></option>
+                                <option value="difficulty" selected><fmt:message key="difficulty"/></option>
+                                <option value="questions"><fmt:message key="questions"/></option>
+                            </c:when>
+                            <c:when test="${sortBy == 'questions'}">
+                                <option value="name"><fmt:message key="name"/></option>
+                                <option value="difficulty"><fmt:message key="difficulty"/></option>
+                                <option value="questions" selected><fmt:message key="questions"/></option>
+                            </c:when>
+                            <c:otherwise>
+                                <option value="name"><fmt:message key="name"/></option>
+                                <option value="difficulty"><fmt:message key="difficulty"/></option>
+                                <option value="questions"><fmt:message key="questions"/></option>
+                            </c:otherwise>
+                        </c:choose>
                     </select>
                 </div>
             </div>
             <div class="flex-container">
                 <c:forEach var="quiz" items="${quizzes}">
-                    <!-- TODO: ADD URL TO QUIZ -->
                     <a class="container-element" style="text-decoration: none"
                        href="${pageContext.request.contextPath}/app/quiz?id=${quiz.getId()}">
                         <div>

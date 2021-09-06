@@ -38,7 +38,7 @@ public class QuizDAO implements DAO<Quiz> {
 
     private static final String GET_ALL_QUIZ =
             "SELECT quiz.* FROM quiz, questions_quiz " +
-                    "WHERE quiz.id=questions_quiz.quiz_id GROUP BY quiz_id ORDER BY id;";
+                    "WHERE quiz.id=questions_quiz.quiz_id GROUP BY quiz_id ORDER BY quiz_id;";
 
     private static final String INSERT_USER_FOR_QUIZ = "INSERT INTO users_quizzes (user_id, quiz_id) VALUES (?, ?);";
 
@@ -48,11 +48,17 @@ public class QuizDAO implements DAO<Quiz> {
                     "ORDER BY id DESC " +
                     "LIMIT 4;";
 
-    private static final String GET_ALL_SORT_BY_NAME = "SELECT * FROM quiz ORDER BY name";
+    private static final String GET_ALL_SORT_BY_NAME =
+            "SELECT quiz.* FROM quiz, questions_quiz " +
+                    "WHERE quiz.id=questions_quiz.quiz_id GROUP BY name ORDER BY name;";
 
     private static final String UPDATE_SCORE = "UPDATE users_quizzes SET score=? WHERE user_id=? AND quiz_id=?;";
 
-    private static final String GET_ALL_SORT_BY_NUMBER_OF_QUESTIONS = "SELECT quiz.* FROM quiz, questions_quiz WHERE quiz.id=questions_quiz.quiz_id GROUP BY questions_quiz.quiz_id ORDER BY COUNT(questions_quiz.quiz_id);";
+    private static final String GET_ALL_SORT_BY_NUMBER_OF_QUESTIONS =
+            "SELECT quiz.* FROM quiz, questions_quiz " +
+                    "WHERE quiz.id=questions_quiz.quiz_id " +
+                    "GROUP BY questions_quiz.quiz_id " +
+                    "ORDER BY COUNT(questions_quiz.quiz_id);";
 
     private static final String GET_QUIZZES_BY_RANGE = "SELECT * FROM quiz LIMIT ?,?;";
 
@@ -62,11 +68,9 @@ public class QuizDAO implements DAO<Quiz> {
 
     private final DbManager dbManager;
 
-    private final QuestionDAO questionDAO;
-
     public QuizDAO() {
         dbManager = DbManager.getInstance();
-        questionDAO = dbManager.getQuestionDAO();
+        QuestionDAO questionDAO = dbManager.getQuestionDAO();
     }
 
     @Override
