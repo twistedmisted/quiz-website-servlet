@@ -18,7 +18,7 @@ public class AnswersDAO {
 
     private static final String INSERT_ANSWERS = "INSERT INTO answers (answer, question_id) VALUES (?, ?);";
 
-    private DbManager dbManager;
+    private final DbManager dbManager;
 
     public AnswersDAO() {
         dbManager = DbManager.getInstance();

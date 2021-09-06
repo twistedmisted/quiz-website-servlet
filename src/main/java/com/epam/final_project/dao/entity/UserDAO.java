@@ -39,7 +39,7 @@ public class UserDAO implements DAO<User> {
 
     private static final String GET_NUMBER_OF_USERS = "SELECT COUNT(*) FROM user;";
 
-    private DbManager dbManager;
+    private final DbManager dbManager;
 
     public UserDAO() {
         dbManager = DbManager.getInstance();

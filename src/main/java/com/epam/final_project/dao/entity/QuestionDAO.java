@@ -21,8 +21,6 @@ public class QuestionDAO implements DAO<Question> {
 
     private static final String GET_QUESTIONS_BY_QUIZ_ID = "SELECT * FROM questions_quiz WHERE quiz_id=(?);";
 
-    private static final String GET_QUESTIONS = "SELECT * FROM question ORDER BY id";
-
     private static final String DELETE_QUESTION = "DELETE FROM question WHERE id=(?);";
 
     private static final String INSERT_QUESTION = "INSERT INTO question (prompt) VALUES (?);";
@@ -31,11 +29,11 @@ public class QuestionDAO implements DAO<Question> {
 
     private static final String GET_NUMBER_OF_QUESTIONS = "SELECT COUNT(*) FROM questions_quiz WHERE quiz_id=?;";
 
-    private DbManager dbManager;
+    private final DbManager dbManager;
 
-    private VariantsDAO variantsDAO;
+    private final VariantsDAO variantsDAO;
 
-    private AnswersDAO answersDAO;
+    private final AnswersDAO answersDAO;
 
     public QuestionDAO() {
         dbManager = DbManager.getInstance();

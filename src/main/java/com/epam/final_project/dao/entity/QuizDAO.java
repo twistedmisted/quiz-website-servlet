@@ -70,7 +70,6 @@ public class QuizDAO implements DAO<Quiz> {
 
     public QuizDAO() {
         dbManager = DbManager.getInstance();
-        QuestionDAO questionDAO = dbManager.getQuestionDAO();
     }
 
     @Override

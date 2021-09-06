@@ -59,7 +59,6 @@ public class AddQuestionCommand implements Command {
             long quizId = Long.parseLong(request.getParameter("id"));
             Quiz quiz = quizDAO.get(quizId);
             quizDAO.setQuestionForQuiz(quiz, question);
-            System.out.println("HERE");
             return new Page("/admin/quizzes/questions?id=" + quizId, true);
         } catch (DbException e) {
             LOGGER.error(e);

@@ -21,7 +21,7 @@ public class VariantsDAO implements DAO<String> {
 
     private static final String NOT_SUPPORTED_ACTION_EXCEPTION = "This is not supported action";
 
-    private DbManager dbManager;
+    private final DbManager dbManager;
 
     public VariantsDAO() {
         dbManager = DbManager.getInstance();
