@@ -1,4 +1,5 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:bundle basename="application_lang">
@@ -59,11 +60,21 @@
             .element input {
                 margin: 0 auto;
             }
+
+            .incr {
+                display: flex;
+                justify-content: center;
+                font-size: 16px;
+                color: red;
+            }
         </style>
     </head>
     <body>
     <div class="container">
-        <form name="edit-user" action="${pageContext.request.contextPath}/admin/edit-user?id=${id}&page=${page}"
+        <c:if test="${param.error == 'true'}">
+            <p class="incr"><fmt:message key="error.register.input"/></p>
+        </c:if>
+        <form name="edit-user" action="${pageContext.request.contextPath}/admin/edit-user?id=${id}"
               method="post">
             <div class="element">
                 <label for="email"><fmt:message key="email"/></label>
@@ -77,13 +88,31 @@
 
             <div class="element">
                 <label for="access-level"><fmt:message key="access-level"/></label>
-                <input type="text" name="access-level" id="access-level" value="${user.accessLevel}">
+                <select name="access-level" id="access-level">
+                    <c:choose>
+                        <c:when test="${user.accessLevel == 'user'}">
+                            <option value="user" selected><fmt:message key="access-level.user"/></option>
+                            <option value="admin"><fmt:message key="access-level.admin"/></option>
+                            <option value="banned"><fmt:message key="access-level.banned"/></option>
+                        </c:when>
+                        <c:when test="${user.accessLevel == 'admin'}">
+                            <option value="user"><fmt:message key="access-level.user"/></option>
+                            <option value="admin" selected><fmt:message key="access-level.admin"/></option>
+                            <option value="banned"><fmt:message key="access-level.banned"/></option>
+                        </c:when>
+                        <c:otherwise>
+                            <option value="user"><fmt:message key="access-level.user"/></option>
+                            <option value="admin"><fmt:message key="access-level.admin"/></option>
+                            <option value="banned" selected><fmt:message key="access-level.banned"/></option>
+                        </c:otherwise>
+                    </c:choose>
+                </select>
             </div>
             <div class="btns">
                 <button class="btn" type="submit"><fmt:message key="confirm"/></button>
             </div>
             <div class="btns">
-                <a class="btn" type="submit" href="<%=request.getHeader("referer")%>"><fmt:message key="back"/></a>
+                <a class="btn" type="submit" href="${pageContext.request.contextPath}/admin/users"><fmt:message key="back"/></a>
             </div>
         </form>
     </div>

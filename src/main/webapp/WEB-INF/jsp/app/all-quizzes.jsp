@@ -14,25 +14,7 @@
         $(document).ready(function () {
             $('#sort-select').change(function () {
                 var sortBy = $('#sort-select').val();
-                $.ajax({
-                    type: 'GET',
-                    data: {sortBy: sortBy},
-                    path: '/app/all-quizzes',
-                    success: function (data) {
-                        window.location = "/app/all-quizzes?sortBy=" + sortBy;
-                    }
-                });
-            });
-            $('#subject-select').change(function () {
-                var subject = $('#subject-select').val();
-                $.ajax({
-                    type: 'GET',
-                    data: {subject: subject},
-                    path: '/app/all-quizzes',
-                    success: function (data) {
-                        window.location = "/app/all-quizzes?subject=" + subject;
-                    }
-                });
+                window.location = "/app/all-quizzes?sortBy=" + sortBy;
             });
         });
     </script>
@@ -74,31 +56,9 @@
             <div class="flex-header">
                 <div class="header">
                     <p class="container-title"><fmt:message key="all-quizzes"/></p></div>
-                <div class="subject">
-                    <label class="label-select" for="subject-select"><fmt:message key="subject"/>:</label>
-                    <select class="select" name="sortVal" id="subject-select">
-                        <c:if test="${showSubject == null}">
-                            <option value="null" selected>...</option>
-                        </c:if>
-
-                        <c:forEach var="subject" items="${subjects}">
-                            <c:choose>
-                                <c:when test="${subject == showSubject}">
-                                    <option value="${subject}" selected><c:out value="${subject}"/></option>
-                                </c:when>
-                                <c:otherwise>
-                                    <option value="${subject}"><c:out value="${subject}"/></option>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                    </select>
-                </div>
                 <div class="sort">
                     <label class="label-select" for="sort-select"><fmt:message key="sort-by"/>:</label>
                     <select class="select" name="sortVal" id="sort-select">
-                        <c:if test="${showSubject != null}">
-                            <option value="null" selected>...</option>
-                        </c:if>
                         <c:choose>
                             <c:when test="${sortBy == 'name'}">
                                 <option value="name" selected><fmt:message key="name"/></option>
@@ -121,6 +81,16 @@
                                 <option value="questions"><fmt:message key="questions"/></option>
                             </c:otherwise>
                         </c:choose>
+                        <c:forEach var="subject" items="${subjects}">
+                            <c:choose>
+                                <c:when test="${subject == sortBy}">
+                                    <option value="${subject}" selected><c:out value="${subject}"/></option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option value="${subject}"><c:out value="${subject}"/></option>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
                     </select>
                 </div>
             </div>

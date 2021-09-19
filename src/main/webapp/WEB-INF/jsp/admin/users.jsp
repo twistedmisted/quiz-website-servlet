@@ -17,7 +17,6 @@
                 <th id="login"><fmt:message key="login"/></th>
                 <th id="email"><fmt:message key="email"/></th>
                 <th id="access-level"><fmt:message key="access-level"/></th>
-                <th id="state"><fmt:message key="start"/></th>
                 <th id="actions" colspan="3"><fmt:message key="actions"/></th>
             </tr>
             <c:forEach var="user" items="${users}">
@@ -25,24 +24,23 @@
                     <td><c:out value="${user.login}"/></td>
                     <td><c:out value="${user.email}"/></td>
                     <td><c:out value="${user.accessLevel}"/></td>
-                    <td><c:out value="${user.state}"/></td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/admin/edit-user?id=${user.id}&page=${currentPage}"><fmt:message key="edit"/></a>
+                        <a href="${pageContext.request.contextPath}/admin/edit-user?id=${user.id}"><fmt:message key="edit"/></a>
                     </td>
                     <c:choose>
-                        <c:when test="${user.state == 'banned'}">
+                        <c:when test="${user.accessLevel == 'banned'}">
                             <td>
-                                <a href="${pageContext.request.contextPath}/admin/unblock-user?page=${currentPage}&id=${user.id}"><fmt:message key="unblock"/></a>
+                                <a href="${pageContext.request.contextPath}/admin/unblock-user?id=${user.id}"><fmt:message key="unblock"/></a>
                             </td>
                         </c:when>
                         <c:otherwise>
                             <td>
-                                <a href="${pageContext.request.contextPath}/admin/block-user?page=${currentPage}&id=${user.id}"><fmt:message key="block"/></a>
+                                <a href="${pageContext.request.contextPath}/admin/block-user?id=${user.id}"><fmt:message key="block"/></a>
                             </td>
                         </c:otherwise>
                     </c:choose>
                     <td>
-                        <a href="${pageContext.request.contextPath}/admin/delete-user?page=${currentPage}&id=${user.id}"><fmt:message key="delete"/></a>
+                        <a href="${pageContext.request.contextPath}/admin/delete-user?id=${user.id}"><fmt:message key="delete"/></a>
                     </td>
                 </tr>
             </c:forEach>

@@ -19,6 +19,8 @@ public class VariantsDAO implements DAO<String> {
 
     private static final String INSERT_VARIANTS = "INSERT INTO variants (variant, question_id) VALUES (?, ?);";
 
+    private static final String DELETE_BY_QUESTION_ID = "DELETE FROM variants WHERE question_id=(?);";
+
     private static final String NOT_SUPPORTED_ACTION_EXCEPTION = "This is not supported action";
 
     private final DbManager dbManager;
@@ -105,7 +107,7 @@ public class VariantsDAO implements DAO<String> {
     }
 
     @Override
-    public void insert(String s) throws DbException {
+    public String insert(String s) throws DbException {
         throw new NotSupportedActionException(NOT_SUPPORTED_ACTION_EXCEPTION);
     }
 
@@ -117,5 +119,17 @@ public class VariantsDAO implements DAO<String> {
     @Override
     public void delete(String s) throws DbException {
         throw new NotSupportedActionException(NOT_SUPPORTED_ACTION_EXCEPTION);
+    }
+
+    public void delete(long id) throws DbException {
+        try (Connection connection = dbManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_BY_QUESTION_ID)) {
+            int k = 0;
+            statement.setLong(++k, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            throw new DbException("Can not to delete answers", e);
+        }
     }
 }

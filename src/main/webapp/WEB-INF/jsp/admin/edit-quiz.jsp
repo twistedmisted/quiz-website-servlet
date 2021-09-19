@@ -60,11 +60,21 @@
             .element input {
                 margin: 0 auto;
             }
+
+            .incr {
+                display: flex;
+                justify-content: center;
+                font-size: 16px;
+                color: red;
+            }
         </style>
     </head>
     <body>
     <div class="container">
-        <form name="edit-quiz" action="${pageContext.request.contextPath}/admin/edit-quiz?id=${id}&page=${page}"
+        <c:if test="${param.error == 'true'}">
+            <p class="incr"><fmt:message key="error.validation.quiz"/></p>
+        </c:if>
+        <form name="edit-quiz" action="${pageContext.request.contextPath}/admin/edit-quiz?id=${id}"
               method="post">
             <div class="element">
                 <label for="name"><fmt:message key="name"/></label>
@@ -106,7 +116,7 @@
                 <button class="btn" type="submit"><fmt:message key="confirm"/></button>
             </div>
             <div class="btns">
-                <a class="btn" type="submit" href="<%=request.getHeader("referer")%>"><fmt:message key="back"/></a>
+                <a class="btn" type="submit" href="${pageContext.request.contextPath}/admin/quizzes"><fmt:message key="back"/></a>
             </div>
         </form>
     </div>

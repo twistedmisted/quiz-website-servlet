@@ -10,7 +10,7 @@ public interface DAO<T> {
 
     List<T> getAll() throws DbException;
 
-    void insert(T t) throws DbException;
+    T insert(T t) throws DbException;
 
     void update(T t) throws DbException;
 

@@ -3,7 +3,11 @@ package com.epam.final_project.app.commands.admin;
 import com.epam.final_project.app.Page;
 import com.epam.final_project.app.commands.Command;
 import com.epam.final_project.dao.DbManager;
+import com.epam.final_project.dao.entity.AnswersDAO;
+import com.epam.final_project.dao.entity.QuestionDAO;
 import com.epam.final_project.dao.entity.QuizDAO;
+import com.epam.final_project.dao.entity.VariantsDAO;
+import com.epam.final_project.dao.model.Question;
 import com.epam.final_project.dao.model.Quiz;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,9 +21,18 @@ public class DeleteQuizCommand implements Command {
     @Override
     public Page execute(HttpServletRequest request, HttpServletResponse response) {
         long id = Long.parseLong(request.getParameter("id"));
-        QuizDAO quizDAO = DbManager.getInstance().getQuizDAO();
+        DbManager dbManager = DbManager.getInstance();
+        QuizDAO quizDAO = dbManager.getQuizDAO();
+        QuestionDAO questionDAO = dbManager.getQuestionDAO();
+        AnswersDAO answerDAO = dbManager.getAnswerDAO();
+        VariantsDAO variantsDAO = dbManager.getVariantsDAO();
         try {
             Quiz quiz = quizDAO.get(id);
+            for (Question question : questionDAO.getAllByQuizId(quiz.getId())) {
+                answerDAO.delete(question.getId());
+                variantsDAO.delete(question.getId());
+                questionDAO.delete(question);
+            }
             quizDAO.delete(quiz);
             return new Page("/admin/quizzes?page=" + request.getParameter("page"), true);
         } catch (Exception e) {

@@ -20,7 +20,7 @@ public class BlockUserCommand implements Command {
         UserDAO userDAO = DbManager.getInstance().getUserDAO();
         try {
             User user = userDAO.get(id);
-            user.setState("banned");
+            user.setAccessLevel("banned");
             userDAO.update(user);
             return new Page("/admin/users?page=" + request.getParameter("page"), true);
         } catch (Exception e) {

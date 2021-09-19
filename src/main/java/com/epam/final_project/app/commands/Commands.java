@@ -5,7 +5,7 @@ import com.epam.final_project.app.commands.user.*;
 
 public enum Commands {
 
-    LOGIN("/login", new LoginCommand()),
+    LOGIN("/login", new LogInCommand()),
     REGISTRATION("/registration", new RegistrationCommand()),
     HOME("/app/home", new HomeCommand()),
     ALL_QUIZZES("/app/all-quizzes", new AllQuizzesCommand()),

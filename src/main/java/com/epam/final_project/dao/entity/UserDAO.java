@@ -26,8 +26,8 @@ public class UserDAO implements DAO<User> {
 
     private static final String GET_USERS = "SELECT * FROM user ORDER BY id;";
 
-    private static final String UPDATE_USER = "UPDATE user SET email=(?), login=(?), password=(?), access_level=(?)," +
-            "state=(?) WHERE id=(?);";
+    private static final String UPDATE_USER = "UPDATE user SET email=(?), login=(?), password=(?), access_level=(?)" +
+            "WHERE id=(?);";
 
     private static final String DELETE_USER = "DELETE FROM user WHERE id=(?);";
 
@@ -80,13 +80,13 @@ public class UserDAO implements DAO<User> {
     }
 
     @Override
-    public void insert(User user) throws DbException {
+    public User insert(User user) throws DbException {
         Connection connection = null;
         try {
             connection = dbManager.getConnection();
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-            insertUser(connection, user);
+            user = insertUser(connection, user);
             connection.commit();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
@@ -95,6 +95,7 @@ public class UserDAO implements DAO<User> {
         } finally {
             close(connection);
         }
+        return user;
     }
 
     @Override
@@ -106,7 +107,6 @@ public class UserDAO implements DAO<User> {
             statement.setString(++k, user.getLogin());
             statement.setString(++k, user.getPassword());
             statement.setString(++k, user.getAccessLevel());
-            statement.setString(++k, user.getState());
             statement.setLong(++k, user.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -244,11 +244,10 @@ public class UserDAO implements DAO<User> {
         user.setLogin(resultSet.getString("login"));
         user.setPassword(resultSet.getString("password"));
         user.setAccessLevel(resultSet.getString("access_level"));
-        user.setState(resultSet.getString("state"));
         return user;
     }
 
-    private void insertUser(Connection connection, User user) throws SQLException {
+    private User insertUser(Connection connection, User user) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_USER,
                 Statement.RETURN_GENERATED_KEYS)) {
             int k = 0;
@@ -261,10 +260,12 @@ public class UserDAO implements DAO<User> {
                 try (ResultSet resultSet = statement.getGeneratedKeys()) {
                     if (resultSet.next()) {
                         user.setId(resultSet.getLong(1));
+                        return user;
                     }
                 }
             }
         }
+        throw new SQLException("Can not to add a user");
     }
 
     private void rollback(Connection con) {

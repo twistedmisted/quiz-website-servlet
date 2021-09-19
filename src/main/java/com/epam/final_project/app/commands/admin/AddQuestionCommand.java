@@ -50,15 +50,11 @@ public class AddQuestionCommand implements Command {
             return new Page("/admin/add-question?id=" + request.getParameter("id") + "&error=true", true);
         }
         try {
-            Question question = Question.createQuestion(prompt, variants, answers);
-            questionDAO.insert(question);
-            long questionId = questionDAO.get(question.getPrompt()).getId();
-            question.setId(questionId);
+            long quizId = Long.parseLong(request.getParameter("id"));
+            Question question = questionDAO.insert(Question.createQuestion(prompt, variants, answers), quizId);
+//            long questionId = questionDAO.get(question.getPrompt()).getId();
             variantsDAO.insert(question);
             answersDAO.insert(question);
-            long quizId = Long.parseLong(request.getParameter("id"));
-            Quiz quiz = quizDAO.get(quizId);
-            quizDAO.setQuestionForQuiz(quiz, question);
             return new Page("/admin/quizzes/questions?id=" + quizId, true);
         } catch (DbException e) {
             LOGGER.error(e);

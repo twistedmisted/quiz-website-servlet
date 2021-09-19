@@ -20,7 +20,7 @@ public class UnblockUserCommand implements Command {
         UserDAO userDAO = DbManager.getInstance().getUserDAO();
         try {
             User user = userDAO.get(id);
-            user.setState("normal");
+            user.setAccessLevel("user");
             userDAO.update(user);
             return new Page("/admin/users?page=" + request.getParameter("page"), true);
         } catch (Exception e) {

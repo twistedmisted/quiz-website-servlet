@@ -29,16 +29,30 @@ public class QuizDAO implements DAO<Quiz> {
 
     private static final String INSERT_QUIZ = "INSERT INTO quiz (name, time, difficulty, subject) VALUES (?, ?, ?, ?);";
 
-    private static final String SET_QUESTION_FOR_QUIZ = "INSERT INTO questions_quiz (quiz_id, question_id) VALUES (?, ?);";
+    private static final String SET_QUESTION_FOR_QUIZ = "INSERT INTO question (prompt, quiz_id) VALUES (?, ?);";
 
-    private static final String GET_LAST_FOUR_QUIZZES =
-            "SELECT quiz.* FROM quiz, questions_quiz " +
-                    "WHERE quiz.id=questions_quiz.quiz_id " +
-                    "GROUP BY quiz_id ORDER BY quiz.id DESC LIMIT 4;";
+    // TODO: TAKE ONLY WITH QUESTIONS
+    private static final String GET_LAST_FOUR_QUIZZES = "SELECT * FROM quiz ORDER BY id DESC LIMIT 4;";
+//    private static final String GET_LAST_FOUR_QUIZZES =
+//            "SELECT quiz.* FROM quiz, questions_quiz " +
+//                    "WHERE quiz.id=questions_quiz.quiz_id " +
+//                    "GROUP BY quiz_id ORDER BY quiz.id DESC LIMIT 4;";
 
-    private static final String GET_ALL_QUIZ =
-            "SELECT quiz.* FROM quiz, questions_quiz " +
-                    "WHERE quiz.id=questions_quiz.quiz_id GROUP BY quiz_id ORDER BY quiz_id;";
+    private static final String GET_ALL_SORT_BY_NAME = "SELECT * FROM quiz ORDER BY NAME;";
+//            "SELECT quiz.* FROM quiz, questions_quiz " +
+//                    "WHERE quiz.id=questions_quiz.quiz_id GROUP BY name ORDER BY name;";
+
+    private static final String GET_ALL_SORT_BY_NUMBER_OF_QUESTIONS =
+            "SELECT quiz.* FROM quiz, question " +
+                    "WHERE quiz.id=question.quiz_id GROUP BY question.quiz_id ORDER BY COUNT(question.quiz_id);";
+//            "SELECT quiz.* FROM quiz, questions_quiz " +
+//                    "WHERE quiz.id=questions_quiz.quiz_id " +
+//                    "GROUP BY questions_quiz.quiz_id " +
+//                    "ORDER BY COUNT(questions_quiz.quiz_id);";
+
+    private static final String GET_ALL_QUIZ = "SELECT * FROM quiz ORDER BY id;";
+//            "SELECT quiz.* FROM quiz, questions_quiz " +
+//                    "WHERE quiz.id=questions_quiz.quiz_id GROUP BY quiz_id ORDER BY quiz_id;";
 
     private static final String INSERT_USER_FOR_QUIZ = "INSERT INTO users_quizzes (user_id, quiz_id) VALUES (?, ?);";
 
@@ -48,17 +62,7 @@ public class QuizDAO implements DAO<Quiz> {
                     "ORDER BY id DESC " +
                     "LIMIT 4;";
 
-    private static final String GET_ALL_SORT_BY_NAME =
-            "SELECT quiz.* FROM quiz, questions_quiz " +
-                    "WHERE quiz.id=questions_quiz.quiz_id GROUP BY name ORDER BY name;";
-
     private static final String UPDATE_SCORE = "UPDATE users_quizzes SET score=? WHERE user_id=? AND quiz_id=?;";
-
-    private static final String GET_ALL_SORT_BY_NUMBER_OF_QUESTIONS =
-            "SELECT quiz.* FROM quiz, questions_quiz " +
-                    "WHERE quiz.id=questions_quiz.quiz_id " +
-                    "GROUP BY questions_quiz.quiz_id " +
-                    "ORDER BY COUNT(questions_quiz.quiz_id);";
 
     private static final String GET_QUIZZES_BY_RANGE = "SELECT * FROM quiz LIMIT ?,?;";
 
@@ -96,13 +100,13 @@ public class QuizDAO implements DAO<Quiz> {
     }
 
     @Override
-    public void insert(Quiz quiz) throws DbException {
+    public Quiz insert(Quiz quiz) throws DbException {
         Connection connection = null;
         try {
             connection = dbManager.getConnection();
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-            addQuiz(connection, quiz);
+            quiz = addQuiz(connection, quiz);
             connection.commit();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
@@ -111,6 +115,7 @@ public class QuizDAO implements DAO<Quiz> {
         } finally {
             close(connection);
         }
+        return quiz;
     }
 
     @Override
@@ -184,7 +189,7 @@ public class QuizDAO implements DAO<Quiz> {
 
     public List<Quiz> getAllSortedByDifficulty() throws DbException {
         List<Quiz> quizzes = getAll();
-        List<String> difficultyOrder = Arrays.asList("easy", "medium", "hard");
+        List<String> difficultyOrder = Arrays.asList("easy", "normal", "hard");
         Comparator<Quiz> quizComparator = Comparator.comparing(q -> difficultyOrder.indexOf(q.getDifficulty()));
         quizzes.sort(quizComparator);
         return quizzes;
@@ -289,15 +294,25 @@ public class QuizDAO implements DAO<Quiz> {
         return quiz;
     }
 
-    private void addQuiz(Connection connection, Quiz quiz) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement(INSERT_QUIZ)) {
+    private Quiz addQuiz(Connection connection, Quiz quiz) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_QUIZ,
+                Statement.RETURN_GENERATED_KEYS)) {
             int k = 0;
             statement.setString(++k, quiz.getName());
             statement.setInt(++k, quiz.getTime());
             statement.setString(++k, quiz.getDifficulty());
             statement.setString(++k, quiz.getSubject());
-            statement.executeUpdate();
+            int count = statement.executeUpdate();
+            if (count != 0) {
+                try (ResultSet resultSet = statement.getGeneratedKeys()) {
+                    if (resultSet.next()) {
+                        quiz.setId(resultSet.getLong(1));
+                        return quiz;
+                    }
+                }
+            }
         }
+        throw new SQLException("Can not to add a quiz");
     }
 
     public void setQuestionForQuiz(Quiz quiz, Question question) throws DbException {

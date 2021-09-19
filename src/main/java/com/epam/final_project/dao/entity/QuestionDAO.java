@@ -19,11 +19,13 @@ public class QuestionDAO implements DAO<Question> {
 
     private static final String GET_QUESTION_BY_PROMPT = "SELECT * FROM question WHERE prompt=(?);";
 
-    private static final String GET_QUESTIONS_BY_QUIZ_ID = "SELECT * FROM questions_quiz WHERE quiz_id=(?);";
+    private static final String GET_QUESTIONS_BY_QUIZ_ID = "SELECT * FROM question WHERE quiz_id=(?);";
 
     private static final String DELETE_QUESTION = "DELETE FROM question WHERE id=(?);";
 
-    private static final String INSERT_QUESTION = "INSERT INTO question (prompt) VALUES (?);";
+    private static final String DELETE_BY_QUIZ_ID = "DELETE FROM question WHERE quiz_id=(?);";
+
+    private static final String INSERT_QUESTION = "INSERT INTO question VALUES (default, ?, ?);";
 
     private static final String GET_QUESTIONS_BY_RANGE = "SELECT * FROM questions_quiz WHERE quiz_id=? LIMIT ?,?;";
 
@@ -65,13 +67,17 @@ public class QuestionDAO implements DAO<Question> {
     }
 
     @Override
-    public void insert(Question question) throws DbException {
+    public Question insert(Question question) throws DbException {
+        throw new NotSupportedActionException("This action is not supported");
+    }
+
+    public Question insert(Question question, long quizId) throws DbException {
         Connection connection = null;
         try {
             connection = dbManager.getConnection();
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-            addQuestion(connection, question);
+            question = addQuestion(connection, question, quizId);
             connection.commit();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
@@ -80,6 +86,7 @@ public class QuestionDAO implements DAO<Question> {
         } finally {
             close(connection);
         }
+        return question;
     }
 
     @Override
@@ -125,7 +132,7 @@ public class QuestionDAO implements DAO<Question> {
             statement.setLong(++k, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    questions.add(get(resultSet.getLong("question_id")));
+                    questions.add(mapQuestion(resultSet));
                 }
                 return questions;
             }
@@ -188,20 +195,23 @@ public class QuestionDAO implements DAO<Question> {
     }
 
 
-    private void addQuestion(Connection connection, Question question) throws SQLException {
+    private Question addQuestion(Connection connection, Question question, long quizId) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_QUESTION,
                 Statement.RETURN_GENERATED_KEYS)) {
             int k = 0;
             statement.setString(++k, question.getPrompt());
+            statement.setLong(++k, quizId);
             int count = statement.executeUpdate();
             if (count > 0) {
                 try (ResultSet resultSet = statement.getGeneratedKeys()) {
                     if (resultSet.next()) {
                         question.setId(resultSet.getLong(1));
+                        return question;
                     }
                 }
             }
         }
+        throw new SQLException("Can not to add a question");
     }
 
 
@@ -225,4 +235,15 @@ public class QuestionDAO implements DAO<Question> {
         }
     }
 
+    public void deleteByQuizId(long id) throws DbException {
+        try (Connection connection = dbManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_BY_QUIZ_ID)) {
+            int k = 0;
+            statement.setLong(++k, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            throw new DbException("Can not to delete question", e);
+        }
+    }
 }

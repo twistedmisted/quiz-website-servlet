@@ -12,8 +12,6 @@ public class User {
 
     private String email;
 
-    private String state;
-
     public static User createUser(String email, String login, String password, String accessLevel) {
         User user = new User();
         user.setEmail(email);
@@ -43,10 +41,6 @@ public class User {
         this.accessLevel = accessLevel;
     }
 
-    public void setState(String state) {
-        this.state = state;
-    }
-
     public long getId() {
         return id;
     }
@@ -67,12 +61,8 @@ public class User {
         return email;
     }
 
-    public String getState() {
-        return state;
-    }
-
     @Override
     public String toString() {
-        return "User: " + id + " " + login + " " + email;
+        return "User: " + id + " " + login + " " + email + " " + password;
     }
 }

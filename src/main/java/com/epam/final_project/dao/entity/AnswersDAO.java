@@ -18,6 +18,8 @@ public class AnswersDAO {
 
     private static final String INSERT_ANSWERS = "INSERT INTO answers (answer, question_id) VALUES (?, ?);";
 
+    private static final String DELETE_BY_QUESTION_ID = "DELETE FROM answers WHERE question_id=(?);";
+
     private final DbManager dbManager;
 
     public AnswersDAO() {
@@ -91,4 +93,15 @@ public class AnswersDAO {
         }
     }
 
+    public void delete(long id) throws DbException {
+        try (Connection connection = dbManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_BY_QUESTION_ID)) {
+            int k = 0;
+            statement.setLong(++k, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            throw new DbException("Can not to delete variants by id", e);
+        }
+    }
 }

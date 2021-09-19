@@ -3,7 +3,10 @@ package com.epam.final_project.app.commands.admin;
 import com.epam.final_project.app.Page;
 import com.epam.final_project.app.commands.Command;
 import com.epam.final_project.dao.DbManager;
+import com.epam.final_project.dao.entity.AnswersDAO;
 import com.epam.final_project.dao.entity.QuestionDAO;
+import com.epam.final_project.dao.entity.VariantsDAO;
+import com.epam.final_project.dao.model.Question;
 import com.epam.final_project.exception.DbException;
 import com.epam.final_project.exception.NoSuchArgumentException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +25,12 @@ public class DeleteQuestionCommand implements Command {
             long quizId = getQuizId(request);
             DbManager dbManager = DbManager.getInstance();
             QuestionDAO questionDAO = dbManager.getQuestionDAO();
-            questionDAO.delete(questionDAO.get(questionId));
+            AnswersDAO answerDAO = dbManager.getAnswerDAO();
+            VariantsDAO variantsDAO = dbManager.getVariantsDAO();
+            Question question = questionDAO.get(questionId);
+            answerDAO.delete(question.getId());
+            variantsDAO.delete(question.getId());
+            questionDAO.delete(question);
             return new Page("/admin/quizzes/questions?id=" + quizId + "&page=" + request.getParameter("page"), true);
         } catch (NoSuchArgumentException | DbException e) {
             LOGGER.error(e);

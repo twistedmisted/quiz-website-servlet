@@ -12,9 +12,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class LoginCommand implements Command {
+public class LogInCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(LoginCommand.class);
+    private static final Logger LOGGER = LogManager.getLogger(LogInCommand.class);
 
     private final DbManager dbManager = DbManager.getInstance();
 
@@ -27,7 +27,7 @@ public class LoginCommand implements Command {
         try {
             User user = userDAO.getByLoginAndPassword(login, password);
             if (user != null) {
-                if (!user.getState().equals("banned")) {
+                if (!user.getAccessLevel().equals("banned")) {
                     request.getSession().setAttribute("user", user);
                     return new Page("/app/home", true);
                 }

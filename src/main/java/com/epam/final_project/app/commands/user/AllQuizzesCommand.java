@@ -23,28 +23,23 @@ public class AllQuizzesCommand implements Command {
         QuizDAO quizDAO = dbManager.getQuizDAO();
         String sortBy = request.getParameter("sortBy");
         String showSubject = request.getParameter("subject");
-        String[] sortOptions = new String[]{
-                "<option value=\"name\">Name</option>",
-                "<option value=\"difficulty\">Difficulty</option>",
-                "<option value=\"questions\">Number of questions</option>"};
         List<Quiz> quizzes = null;
         if (sortBy == null) {
             sortBy = "name";
         }
         try {
             List<String> subjects = quizDAO.getSubjects();
-            if (showSubject != null) {
-                quizzes = quizDAO.getAllBySubject(showSubject);
-            } else if (sortBy.equalsIgnoreCase("name")) {
+            if (sortBy.equalsIgnoreCase("name")) {
                 quizzes = quizDAO.getAllSortedByName();
             } else if (sortBy.equalsIgnoreCase("difficulty")) {
                 quizzes = quizDAO.getAllSortedByDifficulty();
             } else if (sortBy.equalsIgnoreCase("questions")) {
                 quizzes = quizDAO.getAllSortedByNumberOfQuestions();
+            } else {
+                quizzes = quizDAO.getAllBySubject(sortBy);
             }
             request.setAttribute("quizzes", quizzes);
             request.setAttribute("subjects", subjects);
-            request.setAttribute("sortOptions", sortOptions);
             request.setAttribute("showSubject", showSubject);
             request.setAttribute("sortBy", sortBy);
             return new Page("/WEB-INF/jsp/app/all-quizzes.jsp", false);

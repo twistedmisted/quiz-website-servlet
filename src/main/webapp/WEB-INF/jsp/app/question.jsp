@@ -135,7 +135,7 @@
         <form name="question_form"
               action="${pageContext.request.contextPath}/app/start?quiz_id=${quiz_id}&question=<%=Integer.parseInt(request.getParameter("question")) + 1%>"
               method="post">
-            <textarea name="timer" class="timer"></textarea>
+            <textarea name="timer" class="timer" disabled></textarea>
             <p class="prompt">
                 <c:out value="${question.prompt}"/>
             </p>
