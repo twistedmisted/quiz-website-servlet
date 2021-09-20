@@ -27,9 +27,9 @@ public class QuestionDAO implements DAO<Question> {
 
     private static final String INSERT_QUESTION = "INSERT INTO question VALUES (default, ?, ?);";
 
-    private static final String GET_QUESTIONS_BY_RANGE = "SELECT * FROM questions_quiz WHERE quiz_id=? LIMIT ?,?;";
+    private static final String GET_QUESTIONS_BY_RANGE = "SELECT * FROM question WHERE quiz_id=? LIMIT ?,?;";
 
-    private static final String GET_NUMBER_OF_QUESTIONS = "SELECT COUNT(*) FROM questions_quiz WHERE quiz_id=?;";
+    private static final String GET_NUMBER_OF_QUESTIONS = "SELECT COUNT(*) FROM question WHERE quiz_id=?;";
 
     private final DbManager dbManager;
 

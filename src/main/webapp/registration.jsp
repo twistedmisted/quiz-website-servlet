@@ -13,13 +13,12 @@
 
         <script>
             function validPass() {
-                if (document.getElementById("p1").value.length != 0 &&)
-                if (document.getElementById("p1").value.length != 0 && document.getElementById("p2").value.length != 0
-                    && document.getElementById("p1").value != document.getElementById("p2").value) {
+                if (document.getElementById("p1").value.length !== 0 && document.getElementById("p2").value.length !== 0
+                    && document.getElementById("p1").value !== document.getElementById("p2").value) {
                     document.getElementById("passHint1").innerHTML = "Passwords do not match";
                     document.getElementById("passHint2").innerHTML = "Passwords do not match";
                     document.getElementById("btn").disabled = true;
-                } else if (document.getElementById("p1").value == document.getElementById("p2").value) {
+                } else if (document.getElementById("p1").value === document.getElementById("p2").value) {
                     document.getElementById("passHint1").innerHTML = "";
                     document.getElementById("passHint2").innerHTML = "";
                     document.getElementById("btn").disabled = false;
@@ -27,16 +26,13 @@
             }
 
             function validLogin(str) {
-                if (str.length < 3 || str.length > 30) {
-                    document.getElementById("logHint").innerHTML = "Username must be from 3 to 30 characters";
+                if (str.length < 2 || str.length > 30) {
+                    document.getElementById("logHint").innerHTML = "Login must be from 2 to 30 characters";
                     document.getElementById("btn").disabled = true;
                 } else {
                     document.getElementById("logHint").innerHTML = "";
                     document.getElementById("btn").disabled = false;
                 }
-            }
-
-            function validEmail(str) {
             }
         </script>
     </head>
@@ -48,8 +44,7 @@
                 <p class="incr"><fmt:message key="error.register.input"/></p>
             </c:if>
             <p><span class="incr" id="emailHint"></span></p>
-            <input class="un " type="email" placeholder="Email" name="email" id="email"
-                   onkeyup="validEmail(this.value)">
+            <input class="un " type="email" placeholder="Email" name="email" id="email">
             <p><span class="incr" id="logHint"></span></p>
             <input class="un " type="text" placeholder="Username" name="login" id="login"
                    onkeyup="validLogin(this.value)">

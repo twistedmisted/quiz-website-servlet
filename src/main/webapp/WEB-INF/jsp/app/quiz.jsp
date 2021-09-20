@@ -83,8 +83,14 @@
             <fmt:message key="difficulty"/>: <c:out value="${quiz.difficulty}"/> | <fmt:message key="time"/>: <c:out value="${quiz.time}"/> min
         </p>
         <c:choose>
-            <c:when test="${not empty score}">
+            <c:when test="${score >= 0}">
                 <p class="result"><fmt:message key="your-score"/> <c:out value="${score}"/>%</p>
+                <div class="btns">
+                    <a class="btn" href="${pageContext.request.contextPath}/app/home">Back</a>
+                </div>
+            </c:when>
+            <c:when test="${isEmpty == true}">
+                <p class="result"><fmt:message key="quiz-empty"/></p>
                 <div class="btns">
                     <a class="btn" href="${pageContext.request.contextPath}/app/home">Back</a>
                 </div>

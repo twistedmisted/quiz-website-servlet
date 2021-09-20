@@ -15,6 +15,7 @@ public enum Commands {
     LOG_OUT("/app/logout", new LogOutCommand()),
     QUIZ("/app/quiz", new QuizCommand()),
     START_QUIZ("/app/start", new DoQuizCommand()),
+    SHOW_QUESTION("/app/question", new ShowQuestionCommand()),
     ADMIN("/admin", new AdminCommand()),
     USERS("/admin/users", new ShowUsersCommand()),
     QUIZZES("/admin/quizzes", new ShowQuizzesCommand()),

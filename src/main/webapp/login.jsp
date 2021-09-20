@@ -6,14 +6,13 @@
 <fmt:bundle basename="application_lang">
     <!DOCTYPE html>
     <html>
+    <%
+        User user = (User) session.getAttribute("user");
 
-<%--    <%--%>
-<%--        User user = (User) session.getAttribute("user");--%>
-
-<%--        if (user != null) {--%>
-<%--            response.sendRedirect("/app/home");--%>
-<%--        }--%>
-<%--    %>--%>
+        if (user != null) {
+            response.sendRedirect("/app/home");
+        }
+    %>
     <head>
         <link href="${pageContext.request.contextPath}/styles/auth.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
@@ -33,7 +32,7 @@
             <input class="un " type="text" placeholder="Username" name="login">
             <input class="pass" type="password" placeholder="Password" name="password">
             <button class="submit" type="submit"><fmt:message key="sign-in"/></button>
-            <p class="forgot">
+            <p class="btn-auth">
                 <a href="${pageContext.request.contextPath}/registration.jsp"><fmt:message key="register"/></a>
             </p>
         </form>

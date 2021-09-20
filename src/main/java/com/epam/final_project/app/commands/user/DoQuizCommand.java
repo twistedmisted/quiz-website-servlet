@@ -59,7 +59,7 @@ public class DoQuizCommand implements Command {
         }
         Question question = questions.get(index);
         request.getSession().setAttribute(Constants.QUESTION, question);
-        return new Page("/WEB-INF/jsp/app/question.jsp", false);
+        return new Page("/app/question?quiz_id=" + quizId + "&question=" + (index + 1), true);
     }
 
     private void updateScore(HttpServletRequest request) throws DbException {

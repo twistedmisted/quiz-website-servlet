@@ -3,8 +3,10 @@ package com.epam.final_project.app.commands.user;
 import com.epam.final_project.app.Page;
 import com.epam.final_project.app.commands.Command;
 import com.epam.final_project.dao.DbManager;
+import com.epam.final_project.dao.entity.QuestionDAO;
 import com.epam.final_project.dao.entity.QuizDAO;
 import com.epam.final_project.dao.entity.UserDAO;
+import com.epam.final_project.dao.model.Question;
 import com.epam.final_project.dao.model.Quiz;
 import com.epam.final_project.dao.model.User;
 import com.epam.final_project.exception.DbException;
@@ -23,13 +25,19 @@ public class QuizCommand implements Command {
         DbManager dbManager = DbManager.getInstance();
         QuizDAO quizDAO = dbManager.getQuizDAO();
         UserDAO userDAO = dbManager.getUserDAO();
+        QuestionDAO questionDAO = dbManager.getQuestionDAO();
+        long quizId = Long.parseLong(request.getParameter("id"));
         try {
-            Quiz quiz = quizDAO.get(Long.parseLong(request.getParameter("id")));
+            Quiz quiz = quizDAO.get(quizId);
             if (userDAO.haveQuiz(user.getId(), quiz.getId())) {
                 int score = userDAO.getScore(user.getId(), quiz.getId());
                 request.setAttribute("score", score);
             }
             request.setAttribute("quiz", quiz);
+            if (questionDAO.getNumberQuestionsByQuiz(quizId) == 0) {
+                request.setAttribute("isEmpty", true);
+                request.setAttribute("score", -1);
+            }
             return new Page("/WEB-INF/jsp/app/quiz.jsp", false);
         } catch (DbException e) {
             LOGGER.error(e);
