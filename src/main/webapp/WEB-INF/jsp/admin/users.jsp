@@ -25,47 +25,76 @@
                     <td><c:out value="${user.email}"/></td>
                     <td><c:out value="${user.accessLevel}"/></td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/admin/edit-user?id=${user.id}"><fmt:message key="edit"/></a>
+                        <a href="${pageContext.request.contextPath}/admin/edit-user?id=${user.id}"><fmt:message
+                                key="edit"/></a>
                     </td>
                     <c:choose>
                         <c:when test="${user.accessLevel == 'banned'}">
                             <td>
-                                <a href="${pageContext.request.contextPath}/admin/unblock-user?id=${user.id}"><fmt:message key="unblock"/></a>
+                                <a href="${pageContext.request.contextPath}/admin/unblock-user?id=${user.id}"><fmt:message
+                                        key="unblock"/></a>
                             </td>
                         </c:when>
                         <c:otherwise>
                             <td>
-                                <a href="${pageContext.request.contextPath}/admin/block-user?id=${user.id}"><fmt:message key="block"/></a>
+                                <a href="${pageContext.request.contextPath}/admin/block-user?id=${user.id}"><fmt:message
+                                        key="block"/></a>
                             </td>
                         </c:otherwise>
                     </c:choose>
                     <td>
-                        <a href="${pageContext.request.contextPath}/admin/delete-user?id=${user.id}"><fmt:message key="delete"/></a>
+                        <a href="${pageContext.request.contextPath}/admin/delete-user?id=${user.id}"><fmt:message
+                                key="delete"/></a>
                     </td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-        <div class="btns">
-            <c:choose>
-                <c:when test="${currentPage gt 1}">
-                    <a class="element btn"
-                       href="${pageContext.request.contextPath}/admin/users?page=${currentPage - 1}"><fmt:message key="back"/></a>
-                </c:when>
-                <c:otherwise>
-                    <a class="element btn disabled"><fmt:message key="back"/></a>
-                </c:otherwise>
-            </c:choose>
-            <p class="element"><c:out value="${currentPage}"/></p>
-            <c:choose>
-                <c:when test="${currentPage lt numberOfPages}">
-                    <a class="element btn"
-                       href="${pageContext.request.contextPath}/admin/users?page=${currentPage + 1}"><fmt:message key="next"/></a>
-                </c:when>
-                <c:otherwise>
-                    <a class="element btn disabled"><fmt:message key="next"/></a>
-                </c:otherwise>
-            </c:choose>
+        <c:choose>
+            <c:when test="${currentPage gt 1}">
+                <c:set var="startPage" scope="request" value="${currentPage -1}"/>
+            </c:when>
+            <c:otherwise>
+                <c:set var="startPage" scope="request" value="${1}"/>
+            </c:otherwise>
+        </c:choose>
+        <c:choose>
+            <c:when test="${numberOfPages gt currentPage+1}">
+                <c:set var="endPage" scope="request" value="${currentPage +2}"/>
+            </c:when>
+            <c:otherwise>
+                <c:set var="endPage" scope="request" value="${numberOfPages}"/>
+            </c:otherwise>
+        </c:choose>
+        <div class="center">
+            <div class="pagination">
+                <c:choose>
+                    <c:when test="${currentPage != 1}">
+                        <a href="${pageContext.request.contextPath}/admin/users?page=${currentPage - 1}">&laquo;</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a class="page-link disabled" href="#">&laquo;</a>
+                    </c:otherwise>
+                </c:choose>
+                <c:forEach begin="${startPage}" end="${requestScope.endPage}" var="i">
+                    <c:choose>
+                        <c:when test="${currentPage == i}">
+                            <a class="active" href="${pageContext.request.contextPath}/admin/users?page=${i}">${i}</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="${pageContext.request.contextPath}/admin/users?page=${i}">${i}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+                <c:choose>
+                    <c:when test="${currentPage != numberOfPages}">
+                        <a href="${pageContext.request.contextPath}/admin/users?page=${currentPage + 1}">&raquo;</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a class="page-link disabled" href="#">&raquo;</a>
+                    </c:otherwise>
+                </c:choose>
+            </div>
         </div>
         <div class="btns">
             <a class="btn" href="${pageContext.request.contextPath}/admin"><fmt:message key="admin"/></a>
