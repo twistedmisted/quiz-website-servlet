@@ -47,7 +47,7 @@
             <div class="flex-container">
                 <c:choose>
                     <c:when test="${userQuizzes.size() == 0}">
-                        <p class="zero">You have not quizzes...</p>
+                        <p class="zero"><fmt:message key="zero-quizzes"/></p>
                     </c:when>
                     <c:otherwise>
                         <c:forEach var="quiz" items="${userQuizzes}">
@@ -64,6 +64,14 @@
                 </c:choose>
             </div>
         </div>
+    </div>
+    <div class="language">
+        <a class="par" href="${pageContext.request.contextPath}?lang=en">
+            <i><fmt:message key="language.en"/></i>
+        </a>
+        <a class="par" href="${pageContext.request.contextPath}?lang=ua">
+            <i><fmt:message key="language.ua"/></i>
+        </a>
     </div>
 </fmt:bundle>
 </body>

@@ -71,6 +71,19 @@
             padding-top: 20px;
             text-align: center;
         }
+
+        .language {
+            display: flex;
+            justify-content: center;
+            width: 100px;
+        }
+
+        .par {
+            padding: 0 10px 0 10px;
+            font-size: 19px;
+            color: white;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -102,6 +115,14 @@
                 </div>
             </c:otherwise>
         </c:choose>
+    </div>
+    <div class="language">
+        <a class="par" href="${pageContext.request.contextPath}?lang=en">
+            <i><fmt:message key="language.en"/></i>
+        </a>
+        <a class="par" href="${pageContext.request.contextPath}?lang=ua">
+            <i><fmt:message key="language.ua"/></i>
+        </a>
     </div>
 </fmt:bundle>
 </body>

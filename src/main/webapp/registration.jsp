@@ -58,6 +58,14 @@
             <p class="forgot">
                 <a href="${pageContext.request.contextPath}/login"><fmt:message key="have-account"/></a>
             </p>
+            <div class="language">
+                <a class="par" href="${pageContext.request.contextPath}?lang=en">
+                    <i>EN</i>
+                </a>
+                <a class="par" href="${pageContext.request.contextPath}?lang=ua">
+                    <i>UA</i>
+                </a>
+            </div>
         </form>
     </div>
     </body>

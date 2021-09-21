@@ -48,6 +48,19 @@
             .element input {
                 margin: 0 auto;
             }
+
+            .language {
+                display: flex;
+                justify-content: center;
+                width: 100px;
+            }
+
+            .par {
+                padding: 0 10px 0 10px;
+                font-size: 19px;
+                color: white;
+                text-decoration: none;
+            }
         </style>
     </head>
     <body>
@@ -88,6 +101,14 @@
         <div class="btns">
             <a class="btn" type="submit" href="${pageContext.request.contextPath}/admin/quiz?id=<%=request.getParameter("id")%>"><fmt:message key="back"/></a>
         </div>
+    </div>
+    <div class="language">
+        <a class="par" href="${pageContext.request.contextPath}?lang=en">
+            <i><fmt:message key="language.en"/></i>
+        </a>
+        <a class="par" href="${pageContext.request.contextPath}?lang=ua">
+            <i><fmt:message key="language.ua"/></i>
+        </a>
     </div>
     </body>
     </html>

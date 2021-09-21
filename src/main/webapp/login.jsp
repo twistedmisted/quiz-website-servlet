@@ -35,6 +35,14 @@
             <p class="btn-auth">
                 <a href="${pageContext.request.contextPath}/registration.jsp"><fmt:message key="register"/></a>
             </p>
+            <div class="language">
+                <a class="par" href="${pageContext.request.contextPath}?lang=en">
+                    <i><fmt:message key="language.en"/></i>
+                </a>
+                <a class="par" href="${pageContext.request.contextPath}?lang=ua">
+                    <i><fmt:message key="language.ua"/></i>
+                </a>
+            </div>
         </form>
     </div>
     </body>

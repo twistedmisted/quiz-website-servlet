@@ -170,6 +170,19 @@ body {
     padding: 10px;
 }
 
+.language {
+    display: flex;
+    justify-content: center;
+    width: 100px;
+}
+
+.par {
+    padding: 0 10px 0 10px;
+    font-size: 19px;
+    color: white;
+    text-decoration: none;
+}
+
 .container-element {
     flex: 0 0 22%;
     margin: 14px;

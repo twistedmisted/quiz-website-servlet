@@ -1,4 +1,5 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:bundle basename="application_lang">
@@ -66,6 +67,19 @@
                 font-size: 16px;
                 color: red;
             }
+
+            .language {
+                display: flex;
+                justify-content: center;
+                width: 100px;
+            }
+
+            .par {
+                padding: 0 10px 0 10px;
+                font-size: 19px;
+                color: white;
+                text-decoration: none;
+            }
         </style>
     </head>
     <body>
@@ -101,6 +115,14 @@
                 <a class="btn" type="submit" href="${pageContext.request.contextPath}/admin/quizzes"><fmt:message key="back"/></a>
             </div>
         </form>
+    </div>
+    <div class="language">
+        <a class="par" href="${pageContext.request.contextPath}?lang=en">
+            <i><fmt:message key="language.en"/></i>
+        </a>
+        <a class="par" href="${pageContext.request.contextPath}?lang=ua">
+            <i><fmt:message key="language.ua"/></i>
+        </a>
     </div>
     </body>
     </html>

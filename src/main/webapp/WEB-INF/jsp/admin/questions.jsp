@@ -42,6 +42,14 @@
             <a class="btn" href="${pageContext.request.contextPath}/admin/quizzes"><fmt:message key="back"/></a>
         </div>
     </div>
+    <div class="language">
+        <a class="par" href="${pageContext.request.contextPath}?lang=en">
+            <i><fmt:message key="language.en"/></i>
+        </a>
+        <a class="par" href="${pageContext.request.contextPath}?lang=ua">
+            <i><fmt:message key="language.ua"/></i>
+        </a>
+    </div>
     </body>
     </html>
 </fmt:bundle>

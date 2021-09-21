@@ -102,6 +102,19 @@ body a {
     font-size: 14px;
 }
 
+.language {
+    display: flex;
+    justify-content: center;
+    width: 100px;
+}
+
+.par {
+    padding: 0 10px 0 10px;
+    font-size: 19px;
+    color: white;
+    text-decoration: none;
+}
+
 .btn:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
