@@ -65,7 +65,7 @@
             <div class="pagination">
                 <c:choose>
                     <c:when test="${currentPage != 1}">
-                        <a href="${pageContext.request.contextPath}/admin/users?page=${currentPage - 1}">&laquo;</a>
+                        <a href="${pageContext.request.contextPath}/admin/quizzes?page=${currentPage - 1}">&laquo;</a>
                     </c:when>
                     <c:otherwise>
                         <a class="page-link disabled" href="#">&laquo;</a>
@@ -74,16 +74,16 @@
                 <c:forEach begin="${startPage}" end="${requestScope.endPage}" var="i">
                     <c:choose>
                         <c:when test="${currentPage == i}">
-                            <a class="active" href="${pageContext.request.contextPath}/admin/users?page=${i}">${i}</a>
+                            <a class="active" href="${pageContext.request.contextPath}/admin/quizzes?page=${i}">${i}</a>
                         </c:when>
                         <c:otherwise>
-                            <a href="${pageContext.request.contextPath}/admin/users?page=${i}">${i}</a>
+                            <a href="${pageContext.request.contextPath}/admin/quizzes?page=${i}">${i}</a>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
                 <c:choose>
                     <c:when test="${currentPage != numberOfPages}">
-                        <a href="${pageContext.request.contextPath}/admin/users?page=${currentPage + 1}">&raquo;</a>
+                        <a href="${pageContext.request.contextPath}/admin/quizzes?page=${currentPage + 1}">&raquo;</a>
                     </c:when>
                     <c:otherwise>
                         <a class="page-link disabled" href="#">&raquo;</a>

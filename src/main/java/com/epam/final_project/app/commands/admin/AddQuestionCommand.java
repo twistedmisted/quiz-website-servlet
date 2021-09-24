@@ -31,7 +31,6 @@ public class AddQuestionCommand implements Command {
         QuestionDAO questionDAO = dbManager.getQuestionDAO();
         VariantsDAO variantsDAO = dbManager.getVariantsDAO();
         AnswersDAO answersDAO = dbManager.getAnswerDAO();
-        QuizDAO quizDAO = dbManager.getQuizDAO();
         String prompt = request.getParameter("prompt");
         List<String> variants = new ArrayList<>();
         List<Character> answers = new ArrayList<>();
@@ -52,7 +51,6 @@ public class AddQuestionCommand implements Command {
         try {
             long quizId = Long.parseLong(request.getParameter("id"));
             Question question = questionDAO.insert(Question.createQuestion(prompt, variants, answers), quizId);
-//            long questionId = questionDAO.get(question.getPrompt()).getId();
             variantsDAO.insert(question);
             answersDAO.insert(question);
             return new Page("/admin/quizzes/questions?id=" + quizId, true);

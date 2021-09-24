@@ -87,7 +87,7 @@
         <c:if test="${param.error == 'true'}">
             <p class="incr"><fmt:message key="error.register.input"/></p>
         </c:if>
-        <form name="edit-user" action="${pageContext.request.contextPath}/admin/edit-user?id=${id}"
+        <form name="edit-user" action="${pageContext.request.contextPath}/admin/edit-user?id=${id}&page=<%=request.getParameter("page")%>"
               method="post">
             <div class="element">
                 <label for="email"><fmt:message key="email"/></label>

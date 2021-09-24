@@ -1,28 +1,28 @@
 package com.epam.final_project.dao;
 
 import com.epam.final_project.dao.entity.*;
+import org.apache.commons.dbcp.BasicDataSource;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 public class DbManager {
 
     private static DbManager instance;
 
-    private final DataSource dataSource;
+    private final BasicDataSource basicDataSource;
 
     private DbManager() {
-        try {
-            Context initContext = new InitialContext();
-            Context envContext = (Context) initContext.lookup("java:comp/env");
-            dataSource = (DataSource) envContext.lookup("jdbc/webapp-pool");
-        } catch (NamingException e) {
-            throw new IllegalStateException("Cannot init DbManager", e);
-        }
+        basicDataSource = new BasicDataSource();
+        ResourceBundle resource = ResourceBundle.getBundle("database");
+        basicDataSource.setDriverClassName(resource.getString("db.driverClassName"));
+        basicDataSource.setUrl(resource.getString("db.url"));
+        basicDataSource.setMaxIdle(Integer.parseInt(resource.getString("db.maxIdle")));
+        basicDataSource.setMaxWait(Long.parseLong(resource.getString("db.maxWaitMillis")));
+        basicDataSource.setMaxActive(Integer.parseInt(resource.getString("db.maxTotal")));
+        basicDataSource.setUsername(resource.getString("db.username"));
+        basicDataSource.setPassword(resource.getString("db.password"));
     }
 
     public static synchronized DbManager getInstance() {
@@ -33,7 +33,7 @@ public class DbManager {
     }
 
     public Connection getConnection() throws SQLException {
-        return dataSource.getConnection();
+        return basicDataSource.getConnection();
     }
 
     public VariantsDAO getVariantsDAO() {

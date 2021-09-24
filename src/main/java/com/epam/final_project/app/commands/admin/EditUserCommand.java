@@ -37,7 +37,8 @@ public class EditUserCommand implements Command {
                 return new Page("/admin/edit-user?id=" + id + "&error=true", true);
             }
             userDAO.update(createNewUser(request, user));
-            return new Page("/admin/users", true);
+            System.out.println(request.getParameter("page"));
+            return new Page("/admin/users?page=" + request.getParameter("page"), true);
         } catch (DbException e) {
             LOGGER.error(e);
             return new Page("/admin/users?error=true", true);

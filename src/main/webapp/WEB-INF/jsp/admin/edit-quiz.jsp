@@ -87,7 +87,7 @@
         <c:if test="${param.error == 'true'}">
             <p class="incr"><fmt:message key="error.validation.quiz"/></p>
         </c:if>
-        <form name="edit-quiz" action="${pageContext.request.contextPath}/admin/edit-quiz?id=${id}"
+        <form name="edit-quiz" action="${pageContext.request.contextPath}/admin/edit-quiz?id=${id}&page=<%=request.getParameter("page")%>"
               method="post">
             <div class="element">
                 <label for="name"><fmt:message key="name"/></label>

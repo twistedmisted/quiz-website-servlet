@@ -8,8 +8,8 @@
             maxTotal="100" maxIdle="30" maxWaitMillis="10000"
 
             driverClassName="com.mysql.cj.jdbc.Driver"
-            username="linuxuser" password="linux123USER"
-            url="jdbc:mysql://192.168.1.216:3306/webapp"
+            username="cowowner" password="mycow"
+            url="jdbc:mysql://localhost:3306/webapp"
     />
 
 </Context>

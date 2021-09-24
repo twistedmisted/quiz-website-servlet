@@ -25,25 +25,25 @@
                     <td><c:out value="${user.email}"/></td>
                     <td><c:out value="${user.accessLevel}"/></td>
                     <td>
-                        <a href="${pageContext.request.contextPath}/admin/edit-user?id=${user.id}"><fmt:message
+                        <a href="${pageContext.request.contextPath}/admin/edit-user?id=${user.id}&page=${currentPage}"><fmt:message
                                 key="edit"/></a>
                     </td>
                     <c:choose>
                         <c:when test="${user.accessLevel == 'banned'}">
                             <td>
-                                <a href="${pageContext.request.contextPath}/admin/unblock-user?id=${user.id}"><fmt:message
+                                <a href="${pageContext.request.contextPath}/admin/unblock-user?id=${user.id}&page=${currentPage}"><fmt:message
                                         key="unblock"/></a>
                             </td>
                         </c:when>
                         <c:otherwise>
                             <td>
-                                <a href="${pageContext.request.contextPath}/admin/block-user?id=${user.id}"><fmt:message
+                                <a href="${pageContext.request.contextPath}/admin/block-user?id=${user.id}&page=${currentPage}"><fmt:message
                                         key="block"/></a>
                             </td>
                         </c:otherwise>
                     </c:choose>
                     <td>
-                        <a href="${pageContext.request.contextPath}/admin/delete-user?id=${user.id}"><fmt:message
+                        <a href="${pageContext.request.contextPath}/admin/delete-user?id=${user.id}&page=${currentPage}"><fmt:message
                                 key="delete"/></a>
                     </td>
                 </tr>
