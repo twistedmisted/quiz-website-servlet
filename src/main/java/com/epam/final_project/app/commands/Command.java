@@ -1,6 +1,6 @@
 package com.epam.final_project.app.commands;
 
-import com.epam.final_project.app.Page;
+import com.epam.final_project.app.web.Page;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 

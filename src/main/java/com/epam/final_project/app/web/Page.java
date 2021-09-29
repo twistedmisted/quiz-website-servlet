@@ -1,4 +1,4 @@
-package com.epam.final_project.app;
+package com.epam.final_project.app.web;
 
 public class Page {
     private String path;

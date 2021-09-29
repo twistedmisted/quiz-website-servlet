@@ -1,6 +1,6 @@
 package com.epam.final_project.app.commands.admin;
 
-import com.epam.final_project.app.Page;
+import com.epam.final_project.app.web.Page;
 import com.epam.final_project.app.commands.Command;
 import com.epam.final_project.dao.DbManager;
 import com.epam.final_project.dao.entity.QuizDAO;

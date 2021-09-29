@@ -1,12 +1,11 @@
 package com.epam.final_project.app.commands.user;
 
-import com.epam.final_project.app.Page;
+import com.epam.final_project.app.web.Page;
 import com.epam.final_project.app.commands.Command;
 import com.epam.final_project.dao.DbManager;
 import com.epam.final_project.dao.entity.QuestionDAO;
 import com.epam.final_project.dao.entity.QuizDAO;
 import com.epam.final_project.dao.entity.UserDAO;
-import com.epam.final_project.dao.model.Question;
 import com.epam.final_project.dao.model.Quiz;
 import com.epam.final_project.dao.model.User;
 import com.epam.final_project.exception.DbException;

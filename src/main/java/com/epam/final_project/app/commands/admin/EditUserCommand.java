@@ -1,6 +1,6 @@
 package com.epam.final_project.app.commands.admin;
 
-import com.epam.final_project.app.Page;
+import com.epam.final_project.app.web.Page;
 import com.epam.final_project.app.commands.Command;
 import com.epam.final_project.dao.DbManager;
 import com.epam.final_project.dao.entity.UserDAO;
@@ -10,9 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class EditUserCommand implements Command {
 

@@ -1,13 +1,11 @@
 package com.epam.final_project.app.commands.admin;
 
-import com.epam.final_project.app.Page;
+import com.epam.final_project.app.web.Page;
 import com.epam.final_project.app.commands.Command;
 import com.epam.final_project.dao.DbManager;
 import com.epam.final_project.dao.entity.AnswersDAO;
 import com.epam.final_project.dao.entity.QuestionDAO;
-import com.epam.final_project.dao.entity.QuizDAO;
 import com.epam.final_project.dao.entity.VariantsDAO;
-import com.epam.final_project.dao.model.Quiz;
 import com.epam.final_project.exception.DbException;
 import com.epam.final_project.dao.model.Question;
 import jakarta.servlet.http.HttpServletRequest;

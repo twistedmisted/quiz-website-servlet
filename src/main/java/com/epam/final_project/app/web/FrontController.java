@@ -1,4 +1,4 @@
-package com.epam.final_project.app;
+package com.epam.final_project.app.web;
 
 import com.epam.final_project.app.commands.Command;
 import com.epam.final_project.app.commands.CommandsFactory;
