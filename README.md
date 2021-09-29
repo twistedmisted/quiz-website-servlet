@@ -1,2 +1,2 @@
 # GmOwl (Quizzes Webapp)
-![](/home/cowowner/IdeaProjects/epamServletProject/final_project.png "Uml Diagram")
+![Screenshot](final_project.png "Uml Diagram")
