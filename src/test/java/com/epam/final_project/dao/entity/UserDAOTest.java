@@ -1,5 +1,7 @@
-package com.epam.final_project.dao;
+package com.epam.final_project.dao.entity;
 
+import com.epam.final_project.dao.DbManager;
+import com.epam.final_project.dao.MySQLDAOFactory;
 import com.epam.final_project.dao.entity.UserDAO;
 import com.epam.final_project.exception.DbException;
 import org.junit.After;
@@ -20,13 +22,12 @@ public class UserDAOTest {
     @Mock
     DbManager dbManager;
 
-    @Before
-    public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-    }
+    @Mock
+    MySQLDAOFactory mySQLDAOFactory;
 
-    @After
-    public void tearDown() throws Exception {
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
@@ -34,7 +35,7 @@ public class UserDAOTest {
         Connection connection = mock(Connection.class);
         UserDAO userDAO = mock(UserDAO.class);
         when(dbManager.getConnection()).thenReturn(connection);
-        when(dbManager.getUserDAO()).thenReturn(userDAO);
+        when(mySQLDAOFactory.getUserDAO()).thenReturn(userDAO);
         try {
             when(userDAO.getByLoginAndPassword("incorrect","incorrect")).thenThrow(DbException.class);
         } catch (DbException e) {

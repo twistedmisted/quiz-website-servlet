@@ -1,11 +1,11 @@
 package com.epam.final_project.app.commands.admin;
 
-import com.epam.final_project.app.web.Page;
 import com.epam.final_project.app.commands.Command;
-import com.epam.final_project.dao.DbManager;
+import com.epam.final_project.app.web.Page;
+import com.epam.final_project.dao.MySQLDAOFactory;
 import com.epam.final_project.dao.entity.UserDAO;
-import com.epam.final_project.exception.DbException;
 import com.epam.final_project.dao.model.User;
+import com.epam.final_project.exception.DbException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
@@ -15,10 +15,15 @@ public class EditUserCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(EditUserCommand.class);
 
+    private final UserDAO userDAO;
+
+    public EditUserCommand() {
+        MySQLDAOFactory mySQLDAOFactory = new MySQLDAOFactory();
+        userDAO = mySQLDAOFactory.getUserDAO();
+    }
+
     @Override
     public Page execute(HttpServletRequest request, HttpServletResponse response) {
-        DbManager dbManager = DbManager.getInstance();
-        UserDAO userDAO = dbManager.getUserDAO();
         long id = Long.parseLong(request.getParameter("id"));
         try {
             User user = userDAO.get(id);
@@ -26,9 +31,7 @@ public class EditUserCommand implements Command {
                 return new Page("/admin/users?", true);
             }
             if (request.getMethod().equalsIgnoreCase("get")) {
-                request.setAttribute("user", user);
-                request.setAttribute("id", id);
-                return new Page("/WEB-INF/jsp/admin/edit-user.jsp", false);
+                return setAttributes(request, id, user);
             }
             if (!validation(request, userDAO, id)) {
                 return new Page("/admin/edit-user?id=" + id + "&error=true", true);
@@ -40,6 +43,12 @@ public class EditUserCommand implements Command {
             LOGGER.error(e);
             return new Page("/admin/users?error=true", true);
         }
+    }
+
+    private Page setAttributes(HttpServletRequest request, long id, User user) {
+        request.setAttribute("user", user);
+        request.setAttribute("id", id);
+        return new Page("/WEB-INF/jsp/admin/edit-user.jsp", false);
     }
 
     private boolean validation(HttpServletRequest request, UserDAO userDAO, long id) throws DbException {

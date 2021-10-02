@@ -1,6 +1,5 @@
 package com.epam.final_project.dao;
 
-import com.epam.final_project.dao.entity.*;
 import org.apache.commons.dbcp.BasicDataSource;
 
 import java.sql.Connection;
@@ -34,26 +33,6 @@ public class DbManager {
 
     public Connection getConnection() throws SQLException {
         return basicDataSource.getConnection();
-    }
-
-    public VariantsDAO getVariantsDAO() {
-        return new VariantsDAO();
-    }
-
-    public UserDAO getUserDAO() {
-        return new UserDAO();
-    }
-
-    public QuestionDAO getQuestionDAO() {
-        return new QuestionDAO();
-    }
-
-    public QuizDAO getQuizDAO() {
-        return new QuizDAO();
-    }
-
-    public AnswersDAO getAnswerDAO() {
-        return new AnswersDAO();
     }
 
 }

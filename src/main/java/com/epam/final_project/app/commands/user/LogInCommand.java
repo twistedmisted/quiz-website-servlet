@@ -1,8 +1,8 @@
 package com.epam.final_project.app.commands.user;
 
-import com.epam.final_project.app.web.Page;
 import com.epam.final_project.app.commands.Command;
-import com.epam.final_project.dao.DbManager;
+import com.epam.final_project.app.web.Page;
+import com.epam.final_project.dao.MySQLDAOFactory;
 import com.epam.final_project.dao.entity.UserDAO;
 import com.epam.final_project.dao.model.User;
 import com.epam.final_project.exception.DbException;
@@ -16,9 +16,12 @@ public class LogInCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(LogInCommand.class);
 
-    private final DbManager dbManager = DbManager.getInstance();
+    private final UserDAO userDAO;
 
-    private final UserDAO userDAO = dbManager.getUserDAO();
+    public LogInCommand() {
+        MySQLDAOFactory mySQLDAOFactory = new MySQLDAOFactory();
+        userDAO = mySQLDAOFactory.getUserDAO();
+    }
 
     @Override
     public Page execute(HttpServletRequest request, HttpServletResponse response) {

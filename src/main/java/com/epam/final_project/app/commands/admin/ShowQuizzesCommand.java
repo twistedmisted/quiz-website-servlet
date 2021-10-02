@@ -1,8 +1,8 @@
 package com.epam.final_project.app.commands.admin;
 
-import com.epam.final_project.app.web.Page;
 import com.epam.final_project.app.commands.Command;
-import com.epam.final_project.dao.DbManager;
+import com.epam.final_project.app.web.Page;
+import com.epam.final_project.dao.MySQLDAOFactory;
 import com.epam.final_project.dao.entity.QuizDAO;
 import com.epam.final_project.dao.model.Quiz;
 import com.epam.final_project.exception.DbException;
@@ -17,16 +17,22 @@ public class ShowQuizzesCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(ShowQuizzesCommand.class);
 
+    private static final int NUMBER_QUESTIONS_ON_PAGE = 5;
+
+    private final QuizDAO quizDAO;
+
+    public ShowQuizzesCommand() {
+        MySQLDAOFactory mySQLDAOFactory = new MySQLDAOFactory();
+        quizDAO = mySQLDAOFactory.getQuizDAO();
+    }
+
     @Override
     public Page execute(HttpServletRequest request, HttpServletResponse response) {
-        final int NUMBER_QUESTIONS_ON_PAGE = 5;
-        DbManager dbManager = DbManager.getInstance();
-        QuizDAO quizDAO = dbManager.getQuizDAO();
         try {
             int page = getPage(request);
             int start = NUMBER_QUESTIONS_ON_PAGE * (page - 1);
             int totalNumberOfQuizzes = quizDAO.getNumber();
-            int numberOfPages = getNumberOfPages(totalNumberOfQuizzes, NUMBER_QUESTIONS_ON_PAGE);
+            int numberOfPages = getNumberOfPages(totalNumberOfQuizzes);
             List<Quiz> quizzes = quizDAO.getByRange(start, NUMBER_QUESTIONS_ON_PAGE);
             request.setAttribute("quizzes", quizzes);
             request.setAttribute("currentPage", page);
@@ -45,14 +51,14 @@ public class ShowQuizzesCommand implements Command {
         return Integer.parseInt(request.getParameter("page"));
     }
 
-    private int getNumberOfPages(int totalNumberOfQuizzes, int numberQuizzesOnPage) {
+    private int getNumberOfPages(int totalNumberOfQuizzes) {
         if (totalNumberOfQuizzes == 0) {
             return 1;
         }
-        if (totalNumberOfQuizzes % numberQuizzesOnPage == 0) {
-            return totalNumberOfQuizzes / numberQuizzesOnPage;
+        if (totalNumberOfQuizzes % NUMBER_QUESTIONS_ON_PAGE == 0) {
+            return totalNumberOfQuizzes / NUMBER_QUESTIONS_ON_PAGE;
         } else {
-            return totalNumberOfQuizzes / numberQuizzesOnPage + 1;
+            return totalNumberOfQuizzes / NUMBER_QUESTIONS_ON_PAGE + 1;
         }
     }
 }

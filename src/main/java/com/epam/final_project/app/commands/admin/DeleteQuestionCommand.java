@@ -1,8 +1,8 @@
 package com.epam.final_project.app.commands.admin;
 
-import com.epam.final_project.app.web.Page;
 import com.epam.final_project.app.commands.Command;
-import com.epam.final_project.dao.DbManager;
+import com.epam.final_project.app.web.Page;
+import com.epam.final_project.dao.MySQLDAOFactory;
 import com.epam.final_project.dao.entity.AnswersDAO;
 import com.epam.final_project.dao.entity.QuestionDAO;
 import com.epam.final_project.dao.entity.VariantsDAO;
@@ -18,20 +18,30 @@ public class DeleteQuestionCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(DeleteQuestionCommand.class);
 
+    private final QuestionDAO questionDAO;
+
+    private final VariantsDAO variantsDAO;
+
+    private final AnswersDAO answersDAO;
+
+    public DeleteQuestionCommand() {
+        MySQLDAOFactory mySQLDAOFactory = new MySQLDAOFactory();
+        questionDAO = mySQLDAOFactory.getQuestionDAO();
+        variantsDAO = mySQLDAOFactory.getVariantsDAO();
+        answersDAO = mySQLDAOFactory.getAnswersDAO();
+    }
+
     @Override
     public Page execute(HttpServletRequest request, HttpServletResponse response) {
         try {
             long questionId = getQuestionId(request);
             long quizId = getQuizId(request);
-            DbManager dbManager = DbManager.getInstance();
-            QuestionDAO questionDAO = dbManager.getQuestionDAO();
-            AnswersDAO answerDAO = dbManager.getAnswerDAO();
-            VariantsDAO variantsDAO = dbManager.getVariantsDAO();
             Question question = questionDAO.get(questionId);
-            answerDAO.delete(question.getId());
+            answersDAO.delete(question.getId());
             variantsDAO.delete(question.getId());
             questionDAO.delete(question);
-            return new Page("/admin/quizzes/questions?id=" + quizId + "&page=" + request.getParameter("page"), true);
+            return new Page("/admin/quizzes/questions?id=" + quizId +
+                    "&page=" + request.getParameter("page"), true);
         } catch (NoSuchArgumentException | DbException e) {
             LOGGER.error(e);
             return new Page("/admin/quizzes?error=true", true);

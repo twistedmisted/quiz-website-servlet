@@ -1,8 +1,8 @@
 package com.epam.final_project.app.commands.admin;
 
-import com.epam.final_project.app.web.Page;
 import com.epam.final_project.app.commands.Command;
-import com.epam.final_project.dao.DbManager;
+import com.epam.final_project.app.web.Page;
+import com.epam.final_project.dao.MySQLDAOFactory;
 import com.epam.final_project.dao.entity.QuizDAO;
 import com.epam.final_project.dao.model.Quiz;
 import com.epam.final_project.exception.DbException;
@@ -15,10 +15,15 @@ public class EditQuizCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(EditQuizCommand.class);
 
+    private final QuizDAO quizDAO;
+
+    public EditQuizCommand() {
+        MySQLDAOFactory mySQLDAOFactory = new MySQLDAOFactory();
+        quizDAO = mySQLDAOFactory.getQuizDAO();
+    }
+
     @Override
     public Page execute(HttpServletRequest request, HttpServletResponse response) {
-        DbManager dbManager = DbManager.getInstance();
-        QuizDAO quizDAO = dbManager.getQuizDAO();
         long id = Long.parseLong(request.getParameter("id"));
         try {
             Quiz quiz = quizDAO.get(id);
@@ -26,9 +31,7 @@ public class EditQuizCommand implements Command {
                 return new Page("/admin/quizzes", true);
             }
             if (request.getMethod().equalsIgnoreCase("get")) {
-                request.setAttribute("quiz", quiz);
-                request.setAttribute("id", id);
-                return new Page("/WEB-INF/jsp/admin/edit-quiz.jsp", false);
+                return setAttributes(request, id, quiz);
             }
             if (!validation(request, quizDAO)) {
                 return new Page("/admin/edit-quiz?id=" + id + "&error=true", true);
@@ -41,24 +44,26 @@ public class EditQuizCommand implements Command {
         }
     }
 
+    private Page setAttributes(HttpServletRequest request, long id, Quiz quiz) {
+        request.setAttribute("quiz", quiz);
+        request.setAttribute("id", id);
+        return new Page("/WEB-INF/jsp/admin/edit-quiz.jsp", false);
+    }
+
     private boolean validation(HttpServletRequest request, QuizDAO quizDAO) throws DbException {
         String name = request.getParameter("name");
         int time = Integer.parseInt(request.getParameter("time"));
         String difficulty = request.getParameter("difficulty");
         String subject = request.getParameter("subject");
-
         if (name.isEmpty() || quizDAO.get(name) != null) {
             return false;
         }
-
         if (subject.isEmpty()) {
             return false;
         }
-
         if (difficulty.isEmpty()) {
             return false;
         }
-
         return time > 0;
     }
 

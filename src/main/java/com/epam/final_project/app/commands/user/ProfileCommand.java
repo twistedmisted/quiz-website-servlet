@@ -1,8 +1,8 @@
 package com.epam.final_project.app.commands.user;
 
-import com.epam.final_project.app.web.Page;
 import com.epam.final_project.app.commands.Command;
-import com.epam.final_project.dao.DbManager;
+import com.epam.final_project.app.web.Page;
+import com.epam.final_project.dao.MySQLDAOFactory;
 import com.epam.final_project.dao.entity.QuizDAO;
 import com.epam.final_project.dao.entity.UserDAO;
 import com.epam.final_project.dao.model.Quiz;
@@ -21,11 +21,18 @@ public class ProfileCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(ProfileCommand.class);
 
+    private final QuizDAO quizDAO;
+
+    private final UserDAO userDAO;
+
+    public ProfileCommand() {
+        MySQLDAOFactory mySQLDAOFactory = new MySQLDAOFactory();
+        quizDAO = mySQLDAOFactory.getQuizDAO();
+        userDAO = mySQLDAOFactory.getUserDAO();
+    }
+
     @Override
     public Page execute(HttpServletRequest request, HttpServletResponse response) {
-        DbManager dbManager = DbManager.getInstance();
-        QuizDAO quizDAO = dbManager.getQuizDAO();
-        UserDAO userDAO = dbManager.getUserDAO();
         User user = (User) request.getSession().getAttribute("user");
         try {
             List<Quiz> userQuizzes = quizDAO.getQuizzesByUserId(user.getId());
@@ -40,4 +47,5 @@ public class ProfileCommand implements Command {
             return new Page("/app/home", true);
         }
     }
+
 }

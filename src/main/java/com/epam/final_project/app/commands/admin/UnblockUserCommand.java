@@ -1,8 +1,8 @@
 package com.epam.final_project.app.commands.admin;
 
-import com.epam.final_project.app.web.Page;
 import com.epam.final_project.app.commands.Command;
-import com.epam.final_project.dao.DbManager;
+import com.epam.final_project.app.web.Page;
+import com.epam.final_project.dao.MySQLDAOFactory;
 import com.epam.final_project.dao.entity.UserDAO;
 import com.epam.final_project.dao.model.User;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,10 +14,16 @@ public class UnblockUserCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(UnblockUserCommand.class);
 
+    private final UserDAO userDAO;
+
+    public UnblockUserCommand() {
+        MySQLDAOFactory mySQLDAOFactory = new MySQLDAOFactory();
+        userDAO = mySQLDAOFactory.getUserDAO();
+    }
+
     @Override
     public Page execute(HttpServletRequest request, HttpServletResponse response) {
         long id = Long.parseLong(request.getParameter("id"));
-        UserDAO userDAO = DbManager.getInstance().getUserDAO();
         try {
             User user = userDAO.get(id);
             user.setAccessLevel("user");

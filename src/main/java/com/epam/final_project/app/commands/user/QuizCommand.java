@@ -3,6 +3,7 @@ package com.epam.final_project.app.commands.user;
 import com.epam.final_project.app.web.Page;
 import com.epam.final_project.app.commands.Command;
 import com.epam.final_project.dao.DbManager;
+import com.epam.final_project.dao.MySQLDAOFactory;
 import com.epam.final_project.dao.entity.QuestionDAO;
 import com.epam.final_project.dao.entity.QuizDAO;
 import com.epam.final_project.dao.entity.UserDAO;
@@ -18,13 +19,22 @@ public class QuizCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(QuizCommand.class);
 
+    private final QuizDAO quizDAO;
+
+    private final UserDAO userDAO;
+
+    private final QuestionDAO questionDAO;
+
+    public QuizCommand() {
+        MySQLDAOFactory mySQLDAOFactory = new MySQLDAOFactory();
+        quizDAO = mySQLDAOFactory.getQuizDAO();
+        userDAO = mySQLDAOFactory.getUserDAO();
+        questionDAO = mySQLDAOFactory.getQuestionDAO();
+    }
+
     @Override
     public Page execute(HttpServletRequest request, HttpServletResponse response) {
         User user = (User) request.getSession().getAttribute("user");
-        DbManager dbManager = DbManager.getInstance();
-        QuizDAO quizDAO = dbManager.getQuizDAO();
-        UserDAO userDAO = dbManager.getUserDAO();
-        QuestionDAO questionDAO = dbManager.getQuestionDAO();
         long quizId = Long.parseLong(request.getParameter("id"));
         try {
             Quiz quiz = quizDAO.get(quizId);
@@ -43,4 +53,5 @@ public class QuizCommand implements Command {
             return new Page("/WEB-INF/jsp/app/home.jsp", true);
         }
     }
+
 }

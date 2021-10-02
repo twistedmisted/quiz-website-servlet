@@ -1,4 +1,4 @@
-package com.epam.final_project.app.filters;
+package com.epam.final_project.app.web.filters;
 
 import com.epam.final_project.dao.model.User;
 import jakarta.servlet.*;

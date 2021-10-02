@@ -1,8 +1,8 @@
 package com.epam.final_project.app.commands.admin;
 
-import com.epam.final_project.app.web.Page;
 import com.epam.final_project.app.commands.Command;
-import com.epam.final_project.dao.DbManager;
+import com.epam.final_project.app.web.Page;
+import com.epam.final_project.dao.MySQLDAOFactory;
 import com.epam.final_project.dao.entity.QuestionDAO;
 import com.epam.final_project.dao.model.Question;
 import com.epam.final_project.exception.DbException;
@@ -18,10 +18,15 @@ public class ShowQuestionsCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(ShowQuestionsCommand.class);
 
+    private final QuestionDAO questionDAO;
+
+    public ShowQuestionsCommand() {
+        MySQLDAOFactory mySQLDAOFactory = new MySQLDAOFactory();
+        questionDAO = mySQLDAOFactory.getQuestionDAO();
+    }
+
     @Override
     public Page execute(HttpServletRequest request, HttpServletResponse response) {
-        DbManager dbManager = DbManager.getInstance();
-        QuestionDAO questionDAO = dbManager.getQuestionDAO();
         try {
             long quizId = getId(request);
             List<Question> questions = questionDAO.getAllByQuizId(quizId);

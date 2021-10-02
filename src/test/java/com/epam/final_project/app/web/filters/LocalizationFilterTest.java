@@ -1,4 +1,4 @@
-package com.epam.final_project.app.filters;
+package com.epam.final_project.app.web.filters;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

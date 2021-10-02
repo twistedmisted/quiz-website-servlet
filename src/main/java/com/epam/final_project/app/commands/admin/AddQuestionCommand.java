@@ -3,6 +3,7 @@ package com.epam.final_project.app.commands.admin;
 import com.epam.final_project.app.web.Page;
 import com.epam.final_project.app.commands.Command;
 import com.epam.final_project.dao.DbManager;
+import com.epam.final_project.dao.MySQLDAOFactory;
 import com.epam.final_project.dao.entity.AnswersDAO;
 import com.epam.final_project.dao.entity.QuestionDAO;
 import com.epam.final_project.dao.entity.VariantsDAO;
@@ -20,29 +21,27 @@ public class AddQuestionCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(AddQuestionCommand.class);
 
+    private final QuestionDAO questionDAO;
+
+    private final VariantsDAO variantsDAO;
+
+    private final AnswersDAO answersDAO;
+
+    public AddQuestionCommand() {
+        MySQLDAOFactory mySQLDAOFactory = new MySQLDAOFactory();
+        questionDAO = mySQLDAOFactory.getQuestionDAO();
+        variantsDAO = mySQLDAOFactory.getVariantsDAO();
+        answersDAO = mySQLDAOFactory.getAnswersDAO();
+    }
+
     @Override
     public Page execute(HttpServletRequest request, HttpServletResponse response) {
         if (request.getMethod().equalsIgnoreCase("get")) {
             return new Page("/WEB-INF/jsp/admin/add-question.jsp", false);
         }
-        DbManager dbManager = DbManager.getInstance();
-        QuestionDAO questionDAO = dbManager.getQuestionDAO();
-        VariantsDAO variantsDAO = dbManager.getVariantsDAO();
-        AnswersDAO answersDAO = dbManager.getAnswerDAO();
         String prompt = request.getParameter("prompt");
-        List<String> variants = new ArrayList<>();
-        List<Character> answers = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            char letter = (char) ('a' + i);
-            String variant = request.getParameter(letter + "-input");
-            if (!variant.isEmpty()) {
-                variants.add(variant);
-            }
-            String answer = request.getParameter(String.valueOf(letter));
-            if (answer != null) {
-                answers.add(answer.charAt(0));
-            }
-        }
+        List<String> variants = setVariants(request);
+        List<Character> answers = setAnswers(request);
         if (!validateValues(prompt, variants, answers)) {
             return new Page("/admin/add-question?id=" + request.getParameter("id") + "&error=true", true);
         }
@@ -56,6 +55,30 @@ public class AddQuestionCommand implements Command {
             LOGGER.error(e);
             return new Page("/admin/add-question?id=" + request.getParameter("id") + "&error=true", true);
         }
+    }
+
+    private List<Character> setAnswers(HttpServletRequest request) {
+        List<Character> answers = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            char letter = (char) ('a' + i);
+            String answer = request.getParameter(String.valueOf(letter));
+            if (answer != null) {
+                answers.add(answer.charAt(0));
+            }
+        }
+        return answers;
+    }
+
+    private List<String> setVariants(HttpServletRequest request) {
+        List<String> variants = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            char letter = (char) ('a' + i);
+            String variant = request.getParameter(letter + "-input");
+            if (!variant.isEmpty()) {
+                variants.add(variant);
+            }
+        }
+        return variants;
     }
 
     private boolean validateValues(String prompt, List<String> variants, List<Character> answers) {

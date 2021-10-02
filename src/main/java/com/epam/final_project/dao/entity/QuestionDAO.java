@@ -1,6 +1,7 @@
 package com.epam.final_project.dao.entity;
 
 import com.epam.final_project.dao.DbManager;
+import com.epam.final_project.dao.MySQLDAOFactory;
 import com.epam.final_project.dao.model.Question;
 import com.epam.final_project.exception.DbException;
 import com.epam.final_project.exception.NotSupportedActionException;
@@ -23,11 +24,7 @@ public class QuestionDAO implements DAO<Question> {
 
     private static final String DELETE_QUESTION = "DELETE FROM question WHERE id=(?);";
 
-    private static final String DELETE_BY_QUIZ_ID = "DELETE FROM question WHERE quiz_id=(?);";
-
     private static final String INSERT_QUESTION = "INSERT INTO question VALUES (default, ?, ?);";
-
-    private static final String GET_QUESTIONS_BY_RANGE = "SELECT * FROM question WHERE quiz_id=? LIMIT ?,?;";
 
     private static final String GET_NUMBER_OF_QUESTIONS = "SELECT COUNT(*) FROM question WHERE quiz_id=?;";
 
@@ -38,9 +35,10 @@ public class QuestionDAO implements DAO<Question> {
     private final AnswersDAO answersDAO;
 
     public QuestionDAO() {
+        MySQLDAOFactory mySQLDAOFactory = new MySQLDAOFactory();
         dbManager = DbManager.getInstance();
-        variantsDAO = dbManager.getVariantsDAO();
-        answersDAO = dbManager.getAnswerDAO();
+        variantsDAO = mySQLDAOFactory.getVariantsDAO();
+        answersDAO = mySQLDAOFactory.getAnswersDAO();
     }
 
     @Override
@@ -77,7 +75,7 @@ public class QuestionDAO implements DAO<Question> {
             connection = dbManager.getConnection();
             connection.setAutoCommit(false);
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-            question = addQuestion(connection, question, quizId);
+            addQuestion(connection, question, quizId);
             connection.commit();
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
@@ -142,26 +140,6 @@ public class QuestionDAO implements DAO<Question> {
         }
     }
 
-    public List<Question> getQuestionsForQuizByRange(long quizId, long start, int number) throws DbException {
-        List<Question> questions = new ArrayList<>();
-        try (Connection connection = dbManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(GET_QUESTIONS_BY_RANGE)) {
-            int k = 0;
-            statement.setLong(++k, quizId);
-            statement.setLong(++k, start);
-            statement.setLong(++k, number);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    questions.add(mapQuestion(resultSet));
-                }
-            }
-            return questions;
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-            throw new DbException("Can not to get questions by range", e);
-        }
-    }
-
     public int getNumberQuestionsByQuiz(long quizId) throws DbException {
         try (Connection connection = dbManager.getConnection();
              PreparedStatement statement = connection.prepareStatement(GET_NUMBER_OF_QUESTIONS)) {
@@ -195,7 +173,7 @@ public class QuestionDAO implements DAO<Question> {
     }
 
 
-    private Question addQuestion(Connection connection, Question question, long quizId) throws SQLException {
+    private void addQuestion(Connection connection, Question question, long quizId) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(INSERT_QUESTION,
                 Statement.RETURN_GENERATED_KEYS)) {
             int k = 0;
@@ -206,7 +184,7 @@ public class QuestionDAO implements DAO<Question> {
                 try (ResultSet resultSet = statement.getGeneratedKeys()) {
                     if (resultSet.next()) {
                         question.setId(resultSet.getLong(1));
-                        return question;
+                        return;
                     }
                 }
             }
@@ -235,15 +213,4 @@ public class QuestionDAO implements DAO<Question> {
         }
     }
 
-    public void deleteByQuizId(long id) throws DbException {
-        try (Connection connection = dbManager.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_BY_QUIZ_ID)) {
-            int k = 0;
-            statement.setLong(++k, id);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            LOGGER.error(e.getMessage());
-            throw new DbException("Can not to delete question", e);
-        }
-    }
 }

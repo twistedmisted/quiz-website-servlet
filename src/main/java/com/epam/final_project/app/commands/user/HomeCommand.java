@@ -1,8 +1,8 @@
 package com.epam.final_project.app.commands.user;
 
-import com.epam.final_project.app.web.Page;
 import com.epam.final_project.app.commands.Command;
-import com.epam.final_project.dao.DbManager;
+import com.epam.final_project.app.web.Page;
+import com.epam.final_project.dao.MySQLDAOFactory;
 import com.epam.final_project.dao.entity.QuizDAO;
 import com.epam.final_project.dao.model.Quiz;
 import com.epam.final_project.dao.model.User;
@@ -18,11 +18,16 @@ public class HomeCommand implements Command {
 
     private static final Logger LOGGER = LogManager.getLogger(HomeCommand.class);
 
+    private final QuizDAO quizDAO;
+
+    public HomeCommand() {
+        MySQLDAOFactory mySQLDAOFactory = new MySQLDAOFactory();
+        quizDAO = mySQLDAOFactory.getQuizDAO();
+    }
+
     @Override
     public Page execute(HttpServletRequest request, HttpServletResponse response) {
         User user = (User) request.getSession().getAttribute("user");
-        DbManager dbManager = DbManager.getInstance();
-        QuizDAO quizDAO = dbManager.getQuizDAO();
         try {
             List<Quiz> newQuizzes = quizDAO.getLastFour();
             List<Quiz> userQuizzes = quizDAO.getQuizzesByUserId(user.getId());

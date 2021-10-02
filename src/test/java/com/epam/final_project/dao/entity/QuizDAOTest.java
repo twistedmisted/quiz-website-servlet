@@ -1,8 +1,8 @@
-package com.epam.final_project.dao;
+package com.epam.final_project.dao.entity;
 
-import com.epam.final_project.dao.entity.QuizDAO;
+import com.epam.final_project.dao.DbManager;
+import com.epam.final_project.dao.MySQLDAOFactory;
 import com.epam.final_project.exception.DbException;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -20,13 +20,12 @@ public class QuizDAOTest {
     @Mock
     DbManager dbManager;
 
-    @Before
-    public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-    }
+    @Mock
+    MySQLDAOFactory mySQLDAOFactory;
 
-    @After
-    public void tearDown() throws Exception {
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
@@ -34,7 +33,7 @@ public class QuizDAOTest {
         Connection connection = mock(Connection.class);
         QuizDAO quizDAO = mock(QuizDAO.class);
         when(dbManager.getConnection()).thenReturn(connection);
-        when(dbManager.getQuizDAO()).thenReturn(quizDAO);
+        when(mySQLDAOFactory.getQuizDAO()).thenReturn(quizDAO);
         try {
             when(quizDAO.get("Incorrect Quiz Name")).thenThrow(DbException.class);
         } catch (DbException e) {
